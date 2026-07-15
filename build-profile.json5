@@ -1,0 +1,21 @@
+{
+  "apiType": "stageMode",
+  "buildOption": {
+    "cangjieOptions": {
+      "path": "./cjpm.toml",
+      "checkDeviceTypes": false
+    },
+    "packingOptions": {
+      "asset": {
+        "exclude": ["./BuildProfile.ets", "./*.zip"]
+      }
+    }
+  },
+  "buildOptionSet": [
+  ],
+  "targets": [
+    {
+      "name": "default"
+    }
+  ]
+}

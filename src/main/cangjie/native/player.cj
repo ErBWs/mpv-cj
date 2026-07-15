@@ -25,7 +25,7 @@ import ohos_app_cangjie_mpvcj.models.AudioParams
 import ohos_app_cangjie_mpvcj.utils.kIsDebug
 
 public class NativePlayer {
-    private var handle: CPointer<mpv_handle_mpv_handle>
+    private var handle: CPointer<mpv_handle>
     private var thread: ?Future<Unit> = None
     private var observerKey: UInt64 = 1
     private var observerKeys = HashMap<String, UInt64>()
@@ -129,24 +129,24 @@ public class NativePlayer {
             setProperty(name, property)
         }
 
-        let properies: Array<(String, mpv_format_mpv_format)> = [
-            ("time-pos/full", mpv_format_MPV_FORMAT_DOUBLE),
-            ("duration/full", mpv_format_MPV_FORMAT_DOUBLE),
-            ("playlist-playing-pos", mpv_format_MPV_FORMAT_INT64),
-            ("track-list", mpv_format_MPV_FORMAT_NODE),
-            ("chapter-list", mpv_format_MPV_FORMAT_NODE),
-            ("video-params", mpv_format_MPV_FORMAT_NODE),
-            ("audio-params", mpv_format_MPV_FORMAT_NODE),
-            ("video-bitrate", mpv_format_MPV_FORMAT_DOUBLE),
-            ("audio-bitrate", mpv_format_MPV_FORMAT_DOUBLE),
-            ("pause", mpv_format_MPV_FORMAT_FLAG),
-            ("paused-for-cache", mpv_format_MPV_FORMAT_FLAG),
-            ("volume", mpv_format_MPV_FORMAT_DOUBLE),
-            ("speed", mpv_format_MPV_FORMAT_DOUBLE),
-            ("eof-reached", mpv_format_MPV_FORMAT_FLAG),
-            ("idle-active", mpv_format_MPV_FORMAT_FLAG),
-            ("cache-buffering-state", mpv_format_MPV_FORMAT_DOUBLE),
-            ("demuxer-cache-time", mpv_format_MPV_FORMAT_INT64)
+        let properies: Array<(String, mpv_format)> = [
+            ("time-pos/full", MPV_FORMAT_DOUBLE),
+            ("duration/full", MPV_FORMAT_DOUBLE),
+            ("playlist-playing-pos", MPV_FORMAT_INT64),
+            ("track-list", MPV_FORMAT_NODE),
+            ("chapter-list", MPV_FORMAT_NODE),
+            ("video-params", MPV_FORMAT_NODE),
+            ("audio-params", MPV_FORMAT_NODE),
+            ("video-bitrate", MPV_FORMAT_DOUBLE),
+            ("audio-bitrate", MPV_FORMAT_DOUBLE),
+            ("pause", MPV_FORMAT_FLAG),
+            ("paused-for-cache", MPV_FORMAT_FLAG),
+            ("volume", MPV_FORMAT_DOUBLE),
+            ("speed", MPV_FORMAT_DOUBLE),
+            ("eof-reached", MPV_FORMAT_FLAG),
+            ("idle-active", MPV_FORMAT_FLAG),
+            ("cache-buffering-state", MPV_FORMAT_DOUBLE),
+            ("demuxer-cache-time", MPV_FORMAT_INT64)
         ]
         for ((name, format) in properies) {
             _observeProperty(name, format)
@@ -165,7 +165,7 @@ public class NativePlayer {
             if (let Some(thread) <- thread) { thread.get() }
             thread = None
             mpv_terminate_destroy(handle)
-            handle = CPointer<mpv_handle_mpv_handle>()
+            handle = CPointer<mpv_handle>()
         }
     }
 
@@ -234,7 +234,7 @@ public class NativePlayer {
 
             CPointer<UIntNative>(ptr + commands.size).write(0)
 
-            let res = LibC.malloc<mpv_node_mpv_node>()
+            let res = LibC.malloc<mpv_node>()
             mpv_command_ret(handle, ptr, res)
 
             for (cstr in cstrs) {
@@ -260,10 +260,10 @@ public class NativePlayer {
         checkHandle()
 
         unsafe {
-            let args = LibC.malloc<mpv_node_mpv_node>()
+            let args = LibC.malloc<mpv_node>()
             args.write(mpvNodeUnionToMpvNode(command))
 
-            let result = LibC.malloc<mpv_node_mpv_node>()
+            let result = LibC.malloc<mpv_node>()
             result.write(mpvNodeUnionToMpvNode(MpvNodeUnion.MpvNull))
 
             let status = mpv_command_node(handle, args, result)
@@ -301,7 +301,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var res = 0.0
-            mpv_get_property(handle, name, mpv_format_MPV_FORMAT_DOUBLE, CPointer<Unit>(inout res))
+            mpv_get_property(handle, name, MPV_FORMAT_DOUBLE, CPointer<Unit>(inout res))
             LibC.free(name)
             res
         }
@@ -324,7 +324,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var res = 0
-            mpv_get_property(handle, name, mpv_format_MPV_FORMAT_INT64, CPointer<Unit>(inout res))
+            mpv_get_property(handle, name, MPV_FORMAT_INT64, CPointer<Unit>(inout res))
             LibC.free(name)
             res
         }
@@ -347,7 +347,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var res = 0
-            mpv_get_property(handle, name, mpv_format_MPV_FORMAT_FLAG, CPointer<Unit>(inout res))
+            mpv_get_property(handle, name, MPV_FORMAT_FLAG, CPointer<Unit>(inout res))
             LibC.free(name)
             res != 0
         }
@@ -398,7 +398,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var val = value
-            mpv_set_property(handle, name, mpv_format_MPV_FORMAT_INT64, CPointer<Unit>(inout val))
+            mpv_set_property(handle, name, MPV_FORMAT_INT64, CPointer<Unit>(inout val))
             LibC.free(name)
         }
     }
@@ -419,7 +419,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var val = value
-            mpv_set_property(handle, name, mpv_format_MPV_FORMAT_DOUBLE, CPointer<Unit>(inout val))
+            mpv_set_property(handle, name, MPV_FORMAT_DOUBLE, CPointer<Unit>(inout val))
             LibC.free(name)
         }
     }
@@ -440,7 +440,7 @@ public class NativePlayer {
         unsafe {
             let name = LibC.mallocCString(property)
             var val = if (value) { 1 } else { 0 }
-            mpv_set_property(handle, name, mpv_format_MPV_FORMAT_FLAG, CPointer<Unit>(inout val))
+            mpv_set_property(handle, name, MPV_FORMAT_FLAG, CPointer<Unit>(inout val))
             LibC.free(name)
         }
     }
@@ -488,7 +488,7 @@ public class NativePlayer {
         observedProperties[property] = callback
         observerKeys[property] = observerKey
         observerKey++
-        _observeProperty(property, mpv_format_MPV_FORMAT_NONE, key: observerKeys[property])
+        _observeProperty(property, MPV_FORMAT_NONE, key: observerKeys[property])
     }
 
     /**
@@ -570,7 +570,7 @@ public class NativePlayer {
         }
     }
 
-    private func _observeProperty(property: String, format: mpv_format_mpv_format, key!: UInt64 = 0) {
+    private func _observeProperty(property: String, format: mpv_format, key!: UInt64 = 0) {
         checkHandle()
 
         unsafe {
@@ -640,7 +640,7 @@ public class NativePlayer {
                 let property = CPointer<mpv_event_property_mpv_event_property>(event.data).read()
                 let name = property.name.toString()
 
-                if (property.format == mpv_format_MPV_FORMAT_NONE) {
+                if (property.format == MPV_FORMAT_NONE) {
                     if (let Some(fn) <- observedProperties.get(name)) {
 	                    fn(getPropertyString(name))
 	                }
@@ -649,23 +649,23 @@ public class NativePlayer {
 
                 match (name) {
                     case "time-pos/full" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.position = CPointer<Float64>(property.data).read() * Duration.second
                             stream.position.add(state.position)
                         }
                     case "duration/full" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.duration = CPointer<Float64>(property.data).read() * Duration.second
                             stream.duration.add(state.duration)
                         }
                     case "playlist-playing-pos" =>
-                        if (property.format == mpv_format_MPV_FORMAT_INT64) {
+                        if (property.format == MPV_FORMAT_INT64) {
                             state.playlist.index = CPointer<Int64>(property.data).read()
                             stream.playlist.add(state.playlist)
                         }
                     case "track-list" =>
-                        if (property.format == mpv_format_MPV_FORMAT_NODE) {
-                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node_mpv_node>(property.data).read())
+                        if (property.format == MPV_FORMAT_NODE) {
+                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node>(property.data).read())
                             if (let Some(values) <- node.asArray()) {
                                 let tracks = Tracks()
                                 for (value in values) {
@@ -686,8 +686,8 @@ public class NativePlayer {
                             }
                         }
                     case "chapter-list" =>
-                        if (property.format == mpv_format_MPV_FORMAT_NODE) {
-                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node_mpv_node>(property.data).read())
+                        if (property.format == MPV_FORMAT_NODE) {
+                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node>(property.data).read())
                             if (let Some(values) <- node.asArray()) {
                                 let chapters = ArrayList<Chapter>()
                                 for (value in values) {
@@ -701,8 +701,8 @@ public class NativePlayer {
                             }
                         }
                     case "video-params" =>
-                        if (property.format == mpv_format_MPV_FORMAT_NODE) {
-                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node_mpv_node>(property.data).read())
+                        if (property.format == MPV_FORMAT_NODE) {
+                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node>(property.data).read())
                             let params = VideoParams()
                             params.pixelFormat = node["pixelformat"].asString() ?? ""
                             params.hwPixelFormat = node["hw-pixelformat"].asString() ?? ""
@@ -727,8 +727,8 @@ public class NativePlayer {
                             stream.videoParams.add(params)
                         }
                     case "audio-params" =>
-                        if (property.format == mpv_format_MPV_FORMAT_NODE) {
-                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node_mpv_node>(property.data).read())
+                        if (property.format == MPV_FORMAT_NODE) {
+                            let node = mpvNodeToMpvNodeUnion(CPointer<mpv_node>(property.data).read())
                             let params = AudioParams()
                             params.format = node["format"].asString() ?? ""
                             params.samplerate = node["samplerate"].asInt64() ?? 0
@@ -737,37 +737,37 @@ public class NativePlayer {
                             stream.audioParams.add(params)
                         }
                     case "video-bitrate" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.videoBitrate = CPointer<Float64>(property.data).read()
                             stream.videoBitrate.add(state.videoBitrate)
                         }
                     case "audio-bitrate" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.audioBitrate = CPointer<Float64>(property.data).read()
                             stream.audioBitrate.add(state.audioBitrate)
                         }
                     case "pause" =>
-                        if (property.format == mpv_format_MPV_FORMAT_FLAG) {
+                        if (property.format == MPV_FORMAT_FLAG) {
                             state.playing = CPointer<Int32>(property.data).read() == 0
                             stream.playing.add(state.playing)
                         }
                     case "paused-for-cache" =>
-                        if (property.format == mpv_format_MPV_FORMAT_FLAG) {
+                        if (property.format == MPV_FORMAT_FLAG) {
                             state.buffering = CPointer<Int32>(property.data).read() != 0
                             stream.buffering.add(state.buffering)
                         }
                     case "volume" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.volume = CPointer<Float64>(property.data).read()
                             stream.volume.add(state.volume)
                         }
                     case "speed" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.speed = CPointer<Float64>(property.data).read()
                             stream.speed.add(state.speed)
                         }
                     case "eof-reached" =>
-                        if (property.format == mpv_format_MPV_FORMAT_FLAG) {
+                        if (property.format == MPV_FORMAT_FLAG) {
                             state.eof = CPointer<Int32>(property.data).read() != 0
                             stream.eof.add(state.eof)
                             if (state.eof) {
@@ -782,19 +782,19 @@ public class NativePlayer {
                             }
                         }
                     case "idle-active" =>
-                        if (property.format == mpv_format_MPV_FORMAT_FLAG) {
+                        if (property.format == MPV_FORMAT_FLAG) {
                             if (!stream.ready.isClosed) {
                             	stream.ready.add(true)
                                 stream.ready.close()
                             }
                         }
                     case "cache-buffering-state" =>
-                        if (property.format == mpv_format_MPV_FORMAT_DOUBLE) {
+                        if (property.format == MPV_FORMAT_DOUBLE) {
                             state.bufferingPercentage = CPointer<Float64>(property.data).read()
                             stream.bufferingPercentage.add(state.bufferingPercentage)
                         }
                     case "demuxer-cache-time" =>
-                        if (property.format == mpv_format_MPV_FORMAT_INT64) {
+                        if (property.format == MPV_FORMAT_INT64) {
                             state.buffer = CPointer<Int64>(property.data).read() * Duration.second
                             stream.buffer.add(state.buffer)
                         }

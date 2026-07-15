@@ -80,21 +80,21 @@ public enum MpvNodeUnion {
     }
 }
 
-public unsafe func mpvNodeToMpvNodeUnion(node: mpv_node_mpv_node): MpvNodeUnion {
+public unsafe func mpvNodeToMpvNodeUnion(node: mpv_node): MpvNodeUnion {
     match (node.format) {
-        case fmt where fmt == mpv_format_MPV_FORMAT_STRING =>
+        case fmt where fmt == MPV_FORMAT_STRING =>
             MpvString(node.u.string().toString())
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_FLAG =>
+        case fmt where fmt == MPV_FORMAT_FLAG =>
             MpvBoolean(node.u.flag() != 0)
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_INT64 =>
+        case fmt where fmt == MPV_FORMAT_INT64 =>
             MpvInt64(node.u.int64())
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_DOUBLE =>
+        case fmt where fmt == MPV_FORMAT_DOUBLE =>
             MpvFloat64(node.u.double_())
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_NODE_ARRAY =>
+        case fmt where fmt == MPV_FORMAT_NODE_ARRAY =>
             let arr = ArrayList<MpvNodeUnion>()
             let list = node.u.list().read()
 
@@ -105,7 +105,7 @@ public unsafe func mpvNodeToMpvNodeUnion(node: mpv_node_mpv_node): MpvNodeUnion 
             }
             MpvArray(arr.toArray())
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_NODE_MAP =>
+        case fmt where fmt == MPV_FORMAT_NODE_MAP =>
             let obj = HashMap<String, MpvNodeUnion>()
             let list = node.u.list().read()
 
@@ -116,7 +116,7 @@ public unsafe func mpvNodeToMpvNodeUnion(node: mpv_node_mpv_node): MpvNodeUnion 
             }
             MpvMap(obj)
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_BYTE_ARRAY =>
+        case fmt where fmt == MPV_FORMAT_BYTE_ARRAY =>
             let ba = node.u.ba().read()
             let ptr = CPointer<UInt8>(ba.data)
             MpvArrayBuffer(Array<UInt8>(Int64(ba.size), { i => (ptr + i).read() }))
@@ -126,53 +126,53 @@ public unsafe func mpvNodeToMpvNodeUnion(node: mpv_node_mpv_node): MpvNodeUnion 
     }
 }
 
-public unsafe func mpvNodeUnionToMpvNode(node: MpvNodeUnion): mpv_node_mpv_node {
-    var value = mpv_node__cjbind_ty_1__cjbind_ty_1()
-    var format = mpv_format_MPV_FORMAT_NONE
+public unsafe func mpvNodeUnionToMpvNode(node: MpvNodeUnion): mpv_node {
+    var value = mpv_node_u()
+    var format = MPV_FORMAT_NONE
 
     match (node) {
         case MpvNull => ()
 
         case MpvString(string) =>
             value.string(val: LibC.mallocCString(string))
-            format = mpv_format_MPV_FORMAT_STRING
+            format = MPV_FORMAT_STRING
 
         case MpvBoolean(flag) =>
             value.flag(val: if (flag) { 1 } else { 0 })
-            format = mpv_format_MPV_FORMAT_FLAG
+            format = MPV_FORMAT_FLAG
 
         case MpvInt64(int64) =>
             value.int64(val: int64)
-            format = mpv_format_MPV_FORMAT_INT64
+            format = MPV_FORMAT_INT64
 
         case MpvFloat64(double) =>
             value.double_(val: double)
-            format = mpv_format_MPV_FORMAT_DOUBLE
+            format = MPV_FORMAT_DOUBLE
 
         case MpvArray(array) =>
             let values = if (array.isEmpty()) {
-                CPointer<mpv_node_mpv_node>()
+                CPointer<mpv_node>()
             } else {
-                LibC.malloc<mpv_node_mpv_node>(count: array.size)
+                LibC.malloc<mpv_node>(count: array.size)
             }
             for (i in 0..array.size) {
                 values.write(i, mpvNodeUnionToMpvNode(array[i]))
             }
 
-            let list = LibC.malloc<mpv_node_list_mpv_node_list>()
-            list.write(mpv_node_list_mpv_node_list(
+            let list = LibC.malloc<mpv_node_list>()
+            list.write(mpv_node_list(
                 Int32(array.size),
                 values,
                 CPointer<CString>()
             ))
             value.list(val: list)
-            format = mpv_format_MPV_FORMAT_NODE_ARRAY
+            format = MPV_FORMAT_NODE_ARRAY
 
         case MpvMap(map) =>
             let values = if (map.isEmpty()) {
-                CPointer<mpv_node_mpv_node>()
+                CPointer<mpv_node>()
             } else {
-                LibC.malloc<mpv_node_mpv_node>(count: map.size)
+                LibC.malloc<mpv_node>(count: map.size)
             }
             let keys = if (map.isEmpty()) {
                 CPointer<CString>()
@@ -187,10 +187,10 @@ public unsafe func mpvNodeUnionToMpvNode(node: MpvNodeUnion): mpv_node_mpv_node 
                 i++
             }
 
-            let list = LibC.malloc<mpv_node_list_mpv_node_list>()
-            list.write(mpv_node_list_mpv_node_list(Int32(map.size), values, keys))
+            let list = LibC.malloc<mpv_node_list>()
+            list.write(mpv_node_list(Int32(map.size), values, keys))
             value.list(val: list)
-            format = mpv_format_MPV_FORMAT_NODE_MAP
+            format = MPV_FORMAT_NODE_MAP
 
         case MpvArrayBuffer(array) =>
             let data = if (array.isEmpty()) {
@@ -202,27 +202,27 @@ public unsafe func mpvNodeUnionToMpvNode(node: MpvNodeUnion): mpv_node_mpv_node 
                 data.write(i, array[i])
             }
 
-            let byteArray = LibC.malloc<mpv_byte_array_mpv_byte_array>()
-            byteArray.write(mpv_byte_array_mpv_byte_array(CPointer<Unit>(data), UIntNative(array.size)))
+            let byteArray = LibC.malloc<mpv_byte_array>()
+            byteArray.write(mpv_byte_array(CPointer<Unit>(data), UIntNative(array.size)))
             value.ba(val: byteArray)
-            format = mpv_format_MPV_FORMAT_BYTE_ARRAY
+            format = MPV_FORMAT_BYTE_ARRAY
     }
 
-    mpv_node_mpv_node(value, format)
+    mpv_node(value, format)
 }
 
-public unsafe func freeMpvNode(node: mpv_node_mpv_node): Unit {
+public unsafe func freeMpvNode(node: mpv_node): Unit {
     match (node.format) {
-        case fmt where fmt == mpv_format_MPV_FORMAT_STRING =>
+        case fmt where fmt == MPV_FORMAT_STRING =>
             LibC.free(node.u.string())
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_NODE_ARRAY || fmt == mpv_format_MPV_FORMAT_NODE_MAP =>
+        case fmt where fmt == MPV_FORMAT_NODE_ARRAY || fmt == MPV_FORMAT_NODE_MAP =>
             let listPointer = node.u.list()
             if (listPointer.isNotNull()) {
                 let list = listPointer.read()
                 for (i in 0..Int64(list.num)) {
                     freeMpvNode((list.values + i).read())
-                    if (fmt == mpv_format_MPV_FORMAT_NODE_MAP) {
+                    if (fmt == MPV_FORMAT_NODE_MAP) {
                         LibC.free((list.keys + i).read())
                     }
                 }
@@ -235,7 +235,7 @@ public unsafe func freeMpvNode(node: mpv_node_mpv_node): Unit {
                 LibC.free(listPointer)
             }
 
-        case fmt where fmt == mpv_format_MPV_FORMAT_BYTE_ARRAY =>
+        case fmt where fmt == MPV_FORMAT_BYTE_ARRAY =>
             let byteArrayPointer = node.u.ba()
             if (byteArrayPointer.isNotNull()) {
                 let byteArray = byteArrayPointer.read()

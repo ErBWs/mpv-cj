@@ -1,80 +1,80 @@
 package ohos_app_cangjie_mpvcj.native
 
-func __cjbind_read_CString_from_UInt64(storage: UInt64): CString {
+func read_CString_from_UInt64(storage: UInt64): CString {
     var s = storage
     return unsafe { CPointer<CString>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_CString_from_UInt64(storage: UInt64, val: CString): UInt64 {
+func write_CString_from_UInt64(storage: UInt64, val: CString): UInt64 {
     var s = storage
     unsafe { CPointer<CString>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-func __cjbind_read_Int32_from_UInt64(storage: UInt64): Int32 {
+func read_Int32_from_UInt64(storage: UInt64): Int32 {
     var s = storage
     return unsafe { CPointer<Int32>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_Int32_from_UInt64(storage: UInt64, val: Int32): UInt64 {
+func write_Int32_from_UInt64(storage: UInt64, val: Int32): UInt64 {
     var s = storage
     unsafe { CPointer<Int32>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-func __cjbind_read_Int64_from_UInt64(storage: UInt64): Int64 {
+func read_Int64_from_UInt64(storage: UInt64): Int64 {
     var s = storage
     return unsafe { CPointer<Int64>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_Int64_from_UInt64(storage: UInt64, val: Int64): UInt64 {
+func write_Int64_from_UInt64(storage: UInt64, val: Int64): UInt64 {
     var s = storage
     unsafe { CPointer<Int64>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-func __cjbind_read_Float64_from_UInt64(storage: UInt64): Float64 {
+func read_Float64_from_UInt64(storage: UInt64): Float64 {
     var s = storage
     return unsafe { CPointer<Float64>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_Float64_from_UInt64(storage: UInt64, val: Float64): UInt64 {
+func write_Float64_from_UInt64(storage: UInt64, val: Float64): UInt64 {
     var s = storage
     unsafe { CPointer<Float64>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-func __cjbind_read_CPointer_mpv_node_list_mpv_node_list__from_UInt64(storage: UInt64): CPointer<mpv_node_list_mpv_node_list> {
+func read_CPointer_mpv_node_list__from_UInt64(storage: UInt64): CPointer<mpv_node_list> {
     var s = storage
-    return unsafe { CPointer<CPointer<mpv_node_list_mpv_node_list>>(CPointer<UInt8>(inout s)).read() }
+    return unsafe { CPointer<CPointer<mpv_node_list>>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_CPointer_mpv_node_list_mpv_node_list__from_UInt64(storage: UInt64, val: CPointer<mpv_node_list_mpv_node_list>): UInt64 {
+func write_CPointer_mpv_node_list__from_UInt64(storage: UInt64, val: CPointer<mpv_node_list>): UInt64 {
     var s = storage
-    unsafe { CPointer<CPointer<mpv_node_list_mpv_node_list>>(CPointer<UInt8>(inout s)).write(val) }
+    unsafe { CPointer<CPointer<mpv_node_list>>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-func __cjbind_read_CPointer_mpv_byte_array_mpv_byte_array__from_UInt64(storage: UInt64): CPointer<mpv_byte_array_mpv_byte_array> {
+func read_CPointer_mpv_byte_array__from_UInt64(storage: UInt64): CPointer<mpv_byte_array> {
     var s = storage
-    return unsafe { CPointer<CPointer<mpv_byte_array_mpv_byte_array>>(CPointer<UInt8>(inout s)).read() }
+    return unsafe { CPointer<CPointer<mpv_byte_array>>(CPointer<UInt8>(inout s)).read() }
 }
 
-func __cjbind_write_CPointer_mpv_byte_array_mpv_byte_array__from_UInt64(storage: UInt64, val: CPointer<mpv_byte_array_mpv_byte_array>): UInt64 {
+func write_CPointer_mpv_byte_array__from_UInt64(storage: UInt64, val: CPointer<mpv_byte_array>): UInt64 {
     var s = storage
-    unsafe { CPointer<CPointer<mpv_byte_array_mpv_byte_array>>(CPointer<UInt8>(inout s)).write(val) }
+    unsafe { CPointer<CPointer<mpv_byte_array>>(CPointer<UInt8>(inout s)).write(val) }
     return s
 }
 
-public const MPV_CLIENT_API_VERSION_MPV_CLIENT_API_VERSION : UInt64 = 131077
+public const MPV_CLIENT_API_VERSION : UInt64 = 131077
 
-public const MPV_ENABLE_DEPRECATED_MPV_ENABLE_DEPRECATED : Int64 = 1
+public const MPV_ENABLE_DEPRECATED : Int64 = 1
 
 // Return the MPV_CLIENT_API_VERSION the mpv source has been compiled with.
 foreign func mpv_client_api_version (  ) : UInt32
 
 @C
-public struct mpv_handle_mpv_handle {
+public struct mpv_handle {
 
 init() {
     throw Exception("type should not be inited")
@@ -85,7 +85,7 @@ init() {
 // Keep in mind that many API functions returning error codes can also
 // return positive values, which also indicate success. API users can
 // hardcode the fact that ">= 0" means success.
-public const mpv_error_MPV_ERROR_SUCCESS : mpv_error_mpv_error = 0
+public const MPV_ERROR_SUCCESS : mpv_error = 0
 
 // The event ringbuffer is full. This means the client is choked, and can't
 // receive any events. This can happen when too many asynchronous requests
@@ -93,77 +93,77 @@ public const mpv_error_MPV_ERROR_SUCCESS : mpv_error_mpv_error = 0
 // unless the mpv core is frozen for some reason, and the client keeps
 // making asynchronous requests. (Bugs in the client API implementation
 // could also trigger this, e.g. if events become "lost".)
-public const mpv_error_MPV_ERROR_EVENT_QUEUE_FULL : mpv_error_mpv_error = -1
+public const MPV_ERROR_EVENT_QUEUE_FULL : mpv_error = -1
 
 // Memory allocation failed.
-public const mpv_error_MPV_ERROR_NOMEM : mpv_error_mpv_error = -2
+public const MPV_ERROR_NOMEM : mpv_error = -2
 
 // The mpv core wasn't configured and initialized yet. See the notes in
 // mpv_create().
-public const mpv_error_MPV_ERROR_UNINITIALIZED : mpv_error_mpv_error = -3
+public const MPV_ERROR_UNINITIALIZED : mpv_error = -3
 
 // Generic catch-all error if a parameter is set to an invalid or
 // unsupported value. This is used if there is no better error code.
-public const mpv_error_MPV_ERROR_INVALID_PARAMETER : mpv_error_mpv_error = -4
+public const MPV_ERROR_INVALID_PARAMETER : mpv_error = -4
 
 // Trying to set an option that doesn't exist.
-public const mpv_error_MPV_ERROR_OPTION_NOT_FOUND : mpv_error_mpv_error = -5
+public const MPV_ERROR_OPTION_NOT_FOUND : mpv_error = -5
 
 // Trying to set an option using an unsupported MPV_FORMAT.
-public const mpv_error_MPV_ERROR_OPTION_FORMAT : mpv_error_mpv_error = -6
+public const MPV_ERROR_OPTION_FORMAT : mpv_error = -6
 
 // Setting the option failed. Typically this happens if the provided option
 // value could not be parsed.
-public const mpv_error_MPV_ERROR_OPTION_ERROR : mpv_error_mpv_error = -7
+public const MPV_ERROR_OPTION_ERROR : mpv_error = -7
 
 // The accessed property doesn't exist.
-public const mpv_error_MPV_ERROR_PROPERTY_NOT_FOUND : mpv_error_mpv_error = -8
+public const MPV_ERROR_PROPERTY_NOT_FOUND : mpv_error = -8
 
 // Trying to set or get a property using an unsupported MPV_FORMAT.
-public const mpv_error_MPV_ERROR_PROPERTY_FORMAT : mpv_error_mpv_error = -9
+public const MPV_ERROR_PROPERTY_FORMAT : mpv_error = -9
 
 // The property exists, but is not available. This usually happens when the
 // associated subsystem is not active, e.g. querying audio parameters while
 // audio is disabled.
-public const mpv_error_MPV_ERROR_PROPERTY_UNAVAILABLE : mpv_error_mpv_error = -10
+public const MPV_ERROR_PROPERTY_UNAVAILABLE : mpv_error = -10
 
 // Error setting or getting a property.
-public const mpv_error_MPV_ERROR_PROPERTY_ERROR : mpv_error_mpv_error = -11
+public const MPV_ERROR_PROPERTY_ERROR : mpv_error = -11
 
 // General error when running a command with mpv_command and similar.
-public const mpv_error_MPV_ERROR_COMMAND : mpv_error_mpv_error = -12
+public const MPV_ERROR_COMMAND : mpv_error = -12
 
 // Generic error on loading (usually used with mpv_event_end_file.error).
-public const mpv_error_MPV_ERROR_LOADING_FAILED : mpv_error_mpv_error = -13
+public const MPV_ERROR_LOADING_FAILED : mpv_error = -13
 
 // Initializing the audio output failed.
-public const mpv_error_MPV_ERROR_AO_INIT_FAILED : mpv_error_mpv_error = -14
+public const MPV_ERROR_AO_INIT_FAILED : mpv_error = -14
 
 // Initializing the video output failed.
-public const mpv_error_MPV_ERROR_VO_INIT_FAILED : mpv_error_mpv_error = -15
+public const MPV_ERROR_VO_INIT_FAILED : mpv_error = -15
 
 // There was no audio or video data to play. This also happens if the
 // file was recognized, but did not contain any audio or video streams,
 // or no streams were selected.
-public const mpv_error_MPV_ERROR_NOTHING_TO_PLAY : mpv_error_mpv_error = -16
+public const MPV_ERROR_NOTHING_TO_PLAY : mpv_error = -16
 
 // When trying to load the file, the file format could not be determined,
 // or the file was too broken to open it.
-public const mpv_error_MPV_ERROR_UNKNOWN_FORMAT : mpv_error_mpv_error = -17
+public const MPV_ERROR_UNKNOWN_FORMAT : mpv_error = -17
 
 // Generic error for signaling that certain system requirements are not
 // fulfilled.
-public const mpv_error_MPV_ERROR_UNSUPPORTED : mpv_error_mpv_error = -18
+public const MPV_ERROR_UNSUPPORTED : mpv_error = -18
 
 // The API function which was called is a stub only.
-public const mpv_error_MPV_ERROR_NOT_IMPLEMENTED : mpv_error_mpv_error = -19
+public const MPV_ERROR_NOT_IMPLEMENTED : mpv_error = -19
 
 // Unspecified error.
-public const mpv_error_MPV_ERROR_GENERIC : mpv_error_mpv_error = -20
+public const MPV_ERROR_GENERIC : mpv_error = -20
 
 // List of error codes than can be returned by API functions. 0 and positive
 // return values always mean success, negative values are always errors.
-public type mpv_error_mpv_error = Int32
+public type mpv_error = Int32
 
 // Return a string describing the error. For unknown errors, the string
 // "unknown error" is returned.
@@ -185,7 +185,7 @@ foreign func mpv_free ( data: CPointer<Unit> ) : Unit
 //
 // @return The client name. The string is read-only and is valid until the
 //         mpv_handle is destroyed.
-foreign func mpv_client_name ( ctx: CPointer<mpv_handle_mpv_handle> ) : CString
+foreign func mpv_client_name ( ctx: CPointer<mpv_handle> ) : CString
 
 // Return the ID of this client handle. Every client has its own unique ID. This
 // ID is never reused by the core, even if the mpv_handle at hand gets destroyed
@@ -200,7 +200,7 @@ foreign func mpv_client_name ( ctx: CPointer<mpv_handle_mpv_handle> ) : CString
 // this manner.
 //
 // @return The client ID.
-foreign func mpv_client_id ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int64
+foreign func mpv_client_id ( ctx: CPointer<mpv_handle> ) : Int64
 
 // Create a new mpv instance and an associated client API handle to control
 // the mpv instance. This instance is in a pre-initialized state,
@@ -254,7 +254,7 @@ foreign func mpv_client_id ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int64
 //         can happen in the following situations:
 //         - out of memory
 //         - LC_NUMERIC is not set to "C" (see general remarks)
-foreign func mpv_create (  ) : CPointer<mpv_handle_mpv_handle>
+foreign func mpv_create (  ) : CPointer<mpv_handle>
 
 // Initialize an uninitialized mpv instance. If the mpv instance is already
 // running, an error is returned.
@@ -274,7 +274,7 @@ foreign func mpv_create (  ) : CPointer<mpv_handle_mpv_handle>
 //      - all encoding mode options
 //
 // @return error code
-foreign func mpv_initialize ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int32
+foreign func mpv_initialize ( ctx: CPointer<mpv_handle> ) : Int32
 
 // Disconnect and destroy the mpv_handle. ctx will be deallocated with this
 // API call.
@@ -284,7 +284,7 @@ foreign func mpv_initialize ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int32
 // mpv_create_weak_client() or internal scripts), these mpv_handles will
 // be sent MPV_EVENT_SHUTDOWN. This function may block until these clients
 // have responded to the shutdown event, and the core is finally destroyed.
-foreign func mpv_destroy ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
+foreign func mpv_destroy ( ctx: CPointer<mpv_handle> ) : Unit
 
 // Similar to mpv_destroy(), but brings the player and all clients down
 // as well, and waits until all of them are destroyed. This function blocks. The
@@ -309,7 +309,7 @@ foreign func mpv_destroy ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
 //  If this is called on a mpv_handle that was not created with mpv_create(),
 //  this function will merely send a quit command and then call
 //  mpv_destroy(), without waiting for the actual shutdown.
-foreign func mpv_terminate_destroy ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
+foreign func mpv_terminate_destroy ( ctx: CPointer<mpv_handle> ) : Unit
 
 // Create a new client handle connected to the same player core as ctx. This
 // context has its own event queue, its own mpv_request_event() state, its own
@@ -333,7 +333,7 @@ foreign func mpv_terminate_destroy ( ctx: CPointer<mpv_handle_mpv_handle> ) : Un
 //             characters (other than '_'), the name is modified to fit.
 //             If NULL, an arbitrary name is automatically chosen.
 // @return a new handle, or NULL on error
-foreign func mpv_create_client ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString ) : CPointer<mpv_handle_mpv_handle>
+foreign func mpv_create_client ( ctx: CPointer<mpv_handle> , name: CString ) : CPointer<mpv_handle>
 
 // This is the same as mpv_create_client(), but the created mpv_handle is
 // treated as a weak reference. If all mpv_handles referencing a core are
@@ -345,7 +345,7 @@ foreign func mpv_create_client ( ctx: CPointer<mpv_handle_mpv_handle> , name: CS
 // Note if you want to use this like refcounting: you have to be aware that
 // mpv_terminate_destroy() _and_ mpv_destroy() for the last non-weak
 // mpv_handle will block until all weak mpv_handles are destroyed.
-foreign func mpv_create_weak_client ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString ) : CPointer<mpv_handle_mpv_handle>
+foreign func mpv_create_weak_client ( ctx: CPointer<mpv_handle> , name: CString ) : CPointer<mpv_handle>
 
 // Load a config file. This loads and parses the file, and sets every entry in
 // the config file's default section as if mpv_set_option_string() is called.
@@ -363,7 +363,7 @@ foreign func mpv_create_weak_client ( ctx: CPointer<mpv_handle_mpv_handle> , nam
 //
 // @param filename absolute path to the config file on the local filesystem
 // @return error code
-foreign func mpv_load_config_file ( ctx: CPointer<mpv_handle_mpv_handle> , filename: CString ) : Int32
+foreign func mpv_load_config_file ( ctx: CPointer<mpv_handle> , filename: CString ) : Int32
 
 // Return the internal time in nanoseconds. This has an arbitrary start offset,
 // but will never wrap or go backwards.
@@ -377,15 +377,15 @@ foreign func mpv_load_config_file ( ctx: CPointer<mpv_handle_mpv_handle> , filen
 // within wakeup callbacks), as long as the context is valid.
 //
 // Safe to be called from mpv render API threads.
-foreign func mpv_get_time_ns ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int64
+foreign func mpv_get_time_ns ( ctx: CPointer<mpv_handle> ) : Int64
 
 // Same as mpv_get_time_ns but in microseconds.
-foreign func mpv_get_time_us ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int64
+foreign func mpv_get_time_us ( ctx: CPointer<mpv_handle> ) : Int64
 
 // Invalid. Sometimes used for empty values. This is always defined to 0,
 // so a normal 0-init of mpv_format (or e.g. mpv_node) is guaranteed to set
 // this it to MPV_FORMAT_NONE (which makes some things saner as consequence).
-public const mpv_format_MPV_FORMAT_NONE : mpv_format_mpv_format = 0
+public const MPV_FORMAT_NONE : mpv_format = 0
 
 // The basic type is char*. It returns the raw property string, like
 // using ${=property} in input.conf (see input.rst).
@@ -420,7 +420,7 @@ public const mpv_format_MPV_FORMAT_NONE : mpv_format_mpv_format = 0
 //
 // Or just use mpv_set_property_string().
 //
-public const mpv_format_MPV_FORMAT_STRING : mpv_format_mpv_format = 1
+public const MPV_FORMAT_STRING : mpv_format = 1
 
 // The basic type is char*. It returns the OSD property string, like
 // using ${property} in input.conf (see input.rst). In many cases, this
@@ -429,7 +429,7 @@ public const mpv_format_MPV_FORMAT_STRING : mpv_format_mpv_format = 1
 // parse these strings.
 //
 // Only valid when doing read access. The rest works like MPV_FORMAT_STRING.
-public const mpv_format_MPV_FORMAT_OSD_STRING : mpv_format_mpv_format = 2
+public const MPV_FORMAT_OSD_STRING : mpv_format = 2
 
 // The basic type is int. The only allowed values are 0 ("no")
 // and 1 ("yes").
@@ -445,13 +445,13 @@ public const mpv_format_MPV_FORMAT_OSD_STRING : mpv_format_mpv_format = 2
 //
 //     int flag = 1;
 //     mpv_set_property(ctx, "property", MPV_FORMAT_FLAG, &flag);
-public const mpv_format_MPV_FORMAT_FLAG : mpv_format_mpv_format = 3
+public const MPV_FORMAT_FLAG : mpv_format = 3
 
 // The basic type is int64_t.
-public const mpv_format_MPV_FORMAT_INT64 : mpv_format_mpv_format = 4
+public const MPV_FORMAT_INT64 : mpv_format = 4
 
 // The basic type is double.
-public const mpv_format_MPV_FORMAT_DOUBLE : mpv_format_mpv_format = 5
+public const MPV_FORMAT_DOUBLE : mpv_format = 5
 
 // The type is mpv_node.
 //
@@ -483,75 +483,75 @@ public const mpv_format_MPV_FORMAT_DOUBLE : mpv_format_mpv_format = 5
 //     value.format = MPV_FORMAT_STRING;
 //     value.u.string = "hello";
 //     mpv_set_property(ctx, "property", MPV_FORMAT_NODE, &value);
-public const mpv_format_MPV_FORMAT_NODE : mpv_format_mpv_format = 6
+public const MPV_FORMAT_NODE : mpv_format = 6
 
 // Used with mpv_node only. Can usually not be used directly.
-public const mpv_format_MPV_FORMAT_NODE_ARRAY : mpv_format_mpv_format = 7
+public const MPV_FORMAT_NODE_ARRAY : mpv_format = 7
 
 // See MPV_FORMAT_NODE_ARRAY.
-public const mpv_format_MPV_FORMAT_NODE_MAP : mpv_format_mpv_format = 8
+public const MPV_FORMAT_NODE_MAP : mpv_format = 8
 
 // A raw, untyped byte array. Only used only with mpv_node, and only in
 // some very specific situations. (Some commands use it.)
-public const mpv_format_MPV_FORMAT_BYTE_ARRAY : mpv_format_mpv_format = 9
+public const MPV_FORMAT_BYTE_ARRAY : mpv_format = 9
 
 // Data format for options and properties. The API functions to get/set
 // properties and options support multiple formats, and this enum describes
 // them.
-public type mpv_format_mpv_format = UInt32
+public type mpv_format = UInt32
 
 @C
-public struct mpv_node__cjbind_ty_1__cjbind_ty_1 {
+public struct mpv_node_u {
 var _storage: UInt64 = unsafe { zeroValue<UInt64>() }
 public init() {}
 public func string(): CString {
-    return __cjbind_read_CString_from_UInt64(this._storage)
+    return read_CString_from_UInt64(this._storage)
 }
 public mut func string(val!: CString): Unit {
-    this._storage = __cjbind_write_CString_from_UInt64(this._storage, val)
+    this._storage = write_CString_from_UInt64(this._storage, val)
 }
 public func flag(): Int32 {
-    return __cjbind_read_Int32_from_UInt64(this._storage)
+    return read_Int32_from_UInt64(this._storage)
 }
 public mut func flag(val!: Int32): Unit {
-    this._storage = __cjbind_write_Int32_from_UInt64(this._storage, val)
+    this._storage = write_Int32_from_UInt64(this._storage, val)
 }
 public func int64(): Int64 {
-    return __cjbind_read_Int64_from_UInt64(this._storage)
+    return read_Int64_from_UInt64(this._storage)
 }
 public mut func int64(val!: Int64): Unit {
-    this._storage = __cjbind_write_Int64_from_UInt64(this._storage, val)
+    this._storage = write_Int64_from_UInt64(this._storage, val)
 }
 public func double_(): Float64 {
-    return __cjbind_read_Float64_from_UInt64(this._storage)
+    return read_Float64_from_UInt64(this._storage)
 }
 public mut func double_(val!: Float64): Unit {
-    this._storage = __cjbind_write_Float64_from_UInt64(this._storage, val)
+    this._storage = write_Float64_from_UInt64(this._storage, val)
 }
-public func list(): CPointer<mpv_node_list_mpv_node_list> {
-    return __cjbind_read_CPointer_mpv_node_list_mpv_node_list__from_UInt64(this._storage)
+public func list(): CPointer<mpv_node_list> {
+    return read_CPointer_mpv_node_list__from_UInt64(this._storage)
 }
-public mut func list(val!: CPointer<mpv_node_list_mpv_node_list>): Unit {
-    this._storage = __cjbind_write_CPointer_mpv_node_list_mpv_node_list__from_UInt64(this._storage, val)
+public mut func list(val!: CPointer<mpv_node_list>): Unit {
+    this._storage = write_CPointer_mpv_node_list__from_UInt64(this._storage, val)
 }
-public func ba(): CPointer<mpv_byte_array_mpv_byte_array> {
-    return __cjbind_read_CPointer_mpv_byte_array_mpv_byte_array__from_UInt64(this._storage)
+public func ba(): CPointer<mpv_byte_array> {
+    return read_CPointer_mpv_byte_array__from_UInt64(this._storage)
 }
-public mut func ba(val!: CPointer<mpv_byte_array_mpv_byte_array>): Unit {
-    this._storage = __cjbind_write_CPointer_mpv_byte_array_mpv_byte_array__from_UInt64(this._storage, val)
+public mut func ba(val!: CPointer<mpv_byte_array>): Unit {
+    this._storage = write_CPointer_mpv_byte_array__from_UInt64(this._storage, val)
 }
 }
 
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_node__cjbind_ty_1__cjbind_ty_1>()
+    let size = sizeOf<mpv_node_u>()
     if (size != 8) {
-        throw Exception("Size of mpv_node__cjbind_ty_1__cjbind_ty_1 is not 8 but ${size} bytes")
+        throw Exception("Size of mpv_node_u is not 8 but ${size} bytes")
     }
-    let align = alignOf<mpv_node__cjbind_ty_1__cjbind_ty_1>()
+    let align = alignOf<mpv_node_u>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_node__cjbind_ty_1__cjbind_ty_1 is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_node_u is not 8 but ${align} bytes")
     }
 }
 
@@ -562,8 +562,8 @@ let _ = {
 // mpv_free_node_contents(). If you fill this struct yourself, you're also
 // responsible for freeing it, and you must not call mpv_free_node_contents().
 @C
-public struct mpv_node_mpv_node {
-public let u : mpv_node__cjbind_ty_1__cjbind_ty_1
+public struct mpv_node {
+public let u : mpv_node_u
 // Type of the data stored in this struct. This value rules what members in
 // the given union can be accessed. The following formats are currently
 // defined to be allowed in mpv_node:
@@ -579,8 +579,8 @@ public let u : mpv_node__cjbind_ty_1__cjbind_ty_1
 //
 // If you encounter a value you don't know, you must not make any
 // assumptions about the contents of union u.
-public let format : mpv_format_mpv_format
-public init(u : mpv_node__cjbind_ty_1__cjbind_ty_1 , format : mpv_format_mpv_format) {
+public let format : mpv_format
+public init(u : mpv_node_u , format : mpv_format) {
     this.u = u
 this.format = format
 }
@@ -589,19 +589,19 @@ this.format = format
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_node_mpv_node>()
+    let size = sizeOf<mpv_node>()
     if (size != 16) {
-        throw Exception("Size of mpv_node_mpv_node is not 16 but ${size} bytes")
+        throw Exception("Size of mpv_node is not 16 but ${size} bytes")
     }
-    let align = alignOf<mpv_node_mpv_node>()
+    let align = alignOf<mpv_node>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_node_mpv_node is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_node is not 8 but ${align} bytes")
     }
 }
 
 // (see mpv_node)
 @C
-public struct mpv_node_list_mpv_node_list {
+public struct mpv_node_list {
 // Number of entries. Negative values are not allowed.
 public let num : Int32
 // MPV_FORMAT_NODE_ARRAY:
@@ -612,7 +612,7 @@ public let num : Int32
 //
 // If num > 0, values[0] to values[num-1] (inclusive) are valid.
 // Otherwise, this can be NULL.
-public let values : CPointer<mpv_node_mpv_node>
+public let values : CPointer<mpv_node>
 // MPV_FORMAT_NODE_ARRAY:
 //  unused (typically NULL), access is not allowed
 //
@@ -622,7 +622,7 @@ public let values : CPointer<mpv_node_mpv_node>
 //  The keys are in random order. The only guarantee is that keys[N] belongs
 //  to the value values[N]. NULL keys are not allowed.
 public let keys : CPointer<CString>
-public init(num : Int32 , values : CPointer<mpv_node_mpv_node> , keys : CPointer<CString>) {
+public init(num : Int32 , values : CPointer<mpv_node> , keys : CPointer<CString>) {
     this.num = num
 this.values = values
 this.keys = keys
@@ -632,19 +632,19 @@ this.keys = keys
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_node_list_mpv_node_list>()
+    let size = sizeOf<mpv_node_list>()
     if (size != 24) {
-        throw Exception("Size of mpv_node_list_mpv_node_list is not 24 but ${size} bytes")
+        throw Exception("Size of mpv_node_list is not 24 but ${size} bytes")
     }
-    let align = alignOf<mpv_node_list_mpv_node_list>()
+    let align = alignOf<mpv_node_list>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_node_list_mpv_node_list is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_node_list is not 8 but ${align} bytes")
     }
 }
 
 // (see mpv_node)
 @C
-public struct mpv_byte_array_mpv_byte_array {
+public struct mpv_byte_array {
 // Pointer to the data. In what format the data is stored is up to whatever
 // uses MPV_FORMAT_BYTE_ARRAY.
 public let data : CPointer<Unit>
@@ -659,13 +659,13 @@ this.size = size
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_byte_array_mpv_byte_array>()
+    let size = sizeOf<mpv_byte_array>()
     if (size != 16) {
-        throw Exception("Size of mpv_byte_array_mpv_byte_array is not 16 but ${size} bytes")
+        throw Exception("Size of mpv_byte_array is not 16 but ${size} bytes")
     }
-    let align = alignOf<mpv_byte_array_mpv_byte_array>()
+    let align = alignOf<mpv_byte_array>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_byte_array_mpv_byte_array is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_byte_array is not 8 but ${align} bytes")
     }
 }
 
@@ -677,7 +677,7 @@ let _ = {
 // the client API sets a node with this format, this function doesn't need to
 // be called. (This is just a clarification that there's no danger of anything
 // strange happening in these cases.)
-foreign func mpv_free_node_contents ( node: CPointer<mpv_node_mpv_node> ) : Unit
+foreign func mpv_free_node_contents ( node: CPointer<mpv_node> ) : Unit
 
 // Set an option. Note that you can't normally set options during runtime. It
 // works in uninitialized state (see mpv_create()), and in some cases in at
@@ -701,13 +701,13 @@ foreign func mpv_free_node_contents ( node: CPointer<mpv_node_mpv_node> ) : Unit
 // @param format see enum mpv_format.
 // @param[in] data Option value (according to the format).
 // @return error code
-foreign func mpv_set_option ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString , format: mpv_format_mpv_format , data: CPointer<Unit> ) : Int32
+foreign func mpv_set_option ( ctx: CPointer<mpv_handle> , name: CString , format: mpv_format , data: CPointer<Unit> ) : Int32
 
 // Convenience function to set an option to a string value. This is like
 // calling mpv_set_option() with MPV_FORMAT_STRING.
 //
 // @return error code
-foreign func mpv_set_option_string ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString , data: CString ) : Int32
+foreign func mpv_set_option_string ( ctx: CPointer<mpv_handle> , name: CString , data: CString ) : Int32
 
 // Send a command to the player. Commands are the same as those used in
 // input.conf, except that this function takes parameters in a pre-split
@@ -721,7 +721,7 @@ foreign func mpv_set_option_string ( ctx: CPointer<mpv_handle_mpv_handle> , name
 // @param[in] args NULL-terminated list of strings. Usually, the first item
 //                 is the command, and the following items are arguments.
 // @return error code
-foreign func mpv_command ( ctx: CPointer<mpv_handle_mpv_handle> , args: CPointer<CString> ) : Int32
+foreign func mpv_command ( ctx: CPointer<mpv_handle> , args: CPointer<CString> ) : Int32
 
 // Same as mpv_command(), but allows passing structured data in any format.
 // In particular, calling mpv_command() is exactly like calling
@@ -755,7 +755,7 @@ foreign func mpv_command ( ctx: CPointer<mpv_handle_mpv_handle> , args: CPointer
 //                    (again, only if the command actually succeeds).
 //                    Not many commands actually use this at all.
 // @return error code (the result parameter is not set on error)
-foreign func mpv_command_node ( ctx: CPointer<mpv_handle_mpv_handle> , args: CPointer<mpv_node_mpv_node> , result: CPointer<mpv_node_mpv_node> ) : Int32
+foreign func mpv_command_node ( ctx: CPointer<mpv_handle> , args: CPointer<mpv_node> , result: CPointer<mpv_node> ) : Int32
 
 // This is essentially identical to mpv_command() but it also returns a result.
 //
@@ -769,14 +769,14 @@ foreign func mpv_command_node ( ctx: CPointer<mpv_handle_mpv_handle> , args: CPo
 //                    (again, only if the command actually succeeds).
 //                    Not many commands actually use this at all.
 // @return error code (the result parameter is not set on error)
-foreign func mpv_command_ret ( ctx: CPointer<mpv_handle_mpv_handle> , args: CPointer<CString> , result: CPointer<mpv_node_mpv_node> ) : Int32
+foreign func mpv_command_ret ( ctx: CPointer<mpv_handle> , args: CPointer<CString> , result: CPointer<mpv_node> ) : Int32
 
 // Same as mpv_command, but use input.conf parsing for splitting arguments.
 // This is slightly simpler, but also more error prone, since arguments may
 // need quoting/escaping.
 //
 // This also has OSD and string expansion enabled by default.
-foreign func mpv_command_string ( ctx: CPointer<mpv_handle_mpv_handle> , args: CString ) : Int32
+foreign func mpv_command_string ( ctx: CPointer<mpv_handle> , args: CString ) : Int32
 
 // Same as mpv_command, but run the command asynchronously.
 //
@@ -796,7 +796,7 @@ foreign func mpv_command_string ( ctx: CPointer<mpv_handle_mpv_handle> , args: C
 //                       be set to (see section about asynchronous calls)
 // @param args NULL-terminated list of strings (see mpv_command())
 // @return error code (if parsing or queuing the command fails)
-foreign func mpv_command_async ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , args: CPointer<CString> ) : Int32
+foreign func mpv_command_async ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 , args: CPointer<CString> ) : Int32
 
 // Same as mpv_command_node(), but run it asynchronously. Basically, this
 // function is to mpv_command_node() what mpv_command_async() is to
@@ -810,7 +810,7 @@ foreign func mpv_command_async ( ctx: CPointer<mpv_handle_mpv_handle> , reply_us
 //                       be set to (see section about asynchronous calls)
 // @param args as in mpv_command_node()
 // @return error code (if parsing or queuing the command fails)
-foreign func mpv_command_node_async ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , args: CPointer<mpv_node_mpv_node> ) : Int32
+foreign func mpv_command_node_async ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 , args: CPointer<mpv_node> ) : Int32
 
 // Signal to all async requests with the matching ID to abort. This affects
 // the following API calls:
@@ -840,7 +840,7 @@ foreign func mpv_command_node_async ( ctx: CPointer<mpv_handle_mpv_handle> , rep
 // and before the command has signaled completion with MPV_EVENT_COMMAND_REPLY.
 //
 // @param reply_userdata ID of the request to be aborted (see above)
-foreign func mpv_abort_async_command ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 ) : Unit
+foreign func mpv_abort_async_command ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 ) : Unit
 
 // Set a property to a given value. Properties are essentially variables which
 // can be queried or set at runtime. For example, writing to the pause property
@@ -871,12 +871,12 @@ foreign func mpv_abort_async_command ( ctx: CPointer<mpv_handle_mpv_handle> , re
 // @param format see enum mpv_format.
 // @param[in] data Option value.
 // @return error code
-foreign func mpv_set_property ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString , format: mpv_format_mpv_format , data: CPointer<Unit> ) : Int32
+foreign func mpv_set_property ( ctx: CPointer<mpv_handle> , name: CString , format: mpv_format , data: CPointer<Unit> ) : Int32
 
 // Convenience function to set a property to a string value.
 //
 // This is like calling mpv_set_property() with MPV_FORMAT_STRING.
-foreign func mpv_set_property_string ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString , data: CString ) : Int32
+foreign func mpv_set_property_string ( ctx: CPointer<mpv_handle> , name: CString , data: CString ) : Int32
 
 // Convenience function to delete a property.
 //
@@ -884,7 +884,7 @@ foreign func mpv_set_property_string ( ctx: CPointer<mpv_handle_mpv_handle> , na
 //
 // @param name The property name. See input.rst for a list of properties.
 // @return error code
-foreign func mpv_del_property ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString ) : Int32
+foreign func mpv_del_property ( ctx: CPointer<mpv_handle> , name: CString ) : Int32
 
 // Set a property asynchronously. You will receive the result of the operation
 // as MPV_EVENT_SET_PROPERTY_REPLY event. The mpv_event.error field will contain
@@ -899,7 +899,7 @@ foreign func mpv_del_property ( ctx: CPointer<mpv_handle_mpv_handle> , name: CSt
 // @param[in] data Option value. The value will be copied by the function. It
 //                 will never be modified by the client API.
 // @return error code if sending the request failed
-foreign func mpv_set_property_async ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format_mpv_format , data: CPointer<Unit> ) : Int32
+foreign func mpv_set_property_async ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format , data: CPointer<Unit> ) : Int32
 
 // Read the value of the given property.
 //
@@ -917,7 +917,7 @@ foreign func mpv_set_property_async ( ctx: CPointer<mpv_handle_mpv_handle> , rep
 //                  you can free the value with mpv_free() (strings) or
 //                  mpv_free_node_contents() (MPV_FORMAT_NODE).
 // @return error code
-foreign func mpv_get_property ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString , format: mpv_format_mpv_format , data: CPointer<Unit> ) : Int32
+foreign func mpv_get_property ( ctx: CPointer<mpv_handle> , name: CString , format: mpv_format , data: CPointer<Unit> ) : Int32
 
 // Return the value of the property with the given name as string. This is
 // equivalent to mpv_get_property() with MPV_FORMAT_STRING.
@@ -930,14 +930,14 @@ foreign func mpv_get_property ( ctx: CPointer<mpv_handle_mpv_handle> , name: CSt
 // @param name The property name.
 // @return Property value, or NULL if the property can't be retrieved. Free
 //         the string with mpv_free().
-foreign func mpv_get_property_string ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString ) : CString
+foreign func mpv_get_property_string ( ctx: CPointer<mpv_handle> , name: CString ) : CString
 
 // Return the property as "OSD" formatted string. This is the same as
 // mpv_get_property_string, but using MPV_FORMAT_OSD_STRING.
 //
 // @return Property value, or NULL if the property can't be retrieved. Free
 //         the string with mpv_free().
-foreign func mpv_get_property_osd_string ( ctx: CPointer<mpv_handle_mpv_handle> , name: CString ) : CString
+foreign func mpv_get_property_osd_string ( ctx: CPointer<mpv_handle> , name: CString ) : CString
 
 // Get a property asynchronously. You will receive the result of the operation
 // as well as the property data with the MPV_EVENT_GET_PROPERTY_REPLY event.
@@ -949,7 +949,7 @@ foreign func mpv_get_property_osd_string ( ctx: CPointer<mpv_handle_mpv_handle> 
 // @param name The property name.
 // @param format see enum mpv_format.
 // @return error code if sending the request failed
-foreign func mpv_get_property_async ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format_mpv_format ) : Int32
+foreign func mpv_get_property_async ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format ) : Int32
 
 // Get a notification whenever the given property changes. You will receive
 // updates as MPV_EVENT_PROPERTY_CHANGE. Note that this is not very precise:
@@ -1004,7 +1004,7 @@ foreign func mpv_get_property_async ( ctx: CPointer<mpv_handle_mpv_handle> , rep
 // @param format see enum mpv_format. Can be MPV_FORMAT_NONE to omit values
 //               from the change events.
 // @return error code (usually fails only on OOM or unsupported format)
-foreign func mpv_observe_property ( mpv: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format_mpv_format ) : Int32
+foreign func mpv_observe_property ( mpv: CPointer<mpv_handle> , reply_userdata: UInt64 , name: CString , format: mpv_format ) : Int32
 
 // Undo mpv_observe_property(). This will remove all observed properties for
 // which the given number was passed as reply_userdata to mpv_observe_property.
@@ -1014,7 +1014,7 @@ foreign func mpv_observe_property ( mpv: CPointer<mpv_handle_mpv_handle> , reply
 // @param registered_reply_userdata ID that was passed to mpv_observe_property
 // @return negative value is an error code, >=0 is number of removed properties
 //         on success (includes the case when 0 were removed)
-foreign func mpv_unobserve_property ( mpv: CPointer<mpv_handle_mpv_handle> , registered_reply_userdata: UInt64 ) : Int32
+foreign func mpv_unobserve_property ( mpv: CPointer<mpv_handle> , registered_reply_userdata: UInt64 ) : Int32
 
 // Nothing happened. Happens on timeouts or sporadic wakeups.
 public const mpv_event_id_MPV_EVENT_NONE : mpv_event_id_mpv_event_id = 0
@@ -1147,7 +1147,7 @@ public let name : CString
 // This is always the same format as the requested format, except when
 // the property could not be retrieved (unavailable, or an error happened),
 // in which case the format is MPV_FORMAT_NONE.
-public let format : mpv_format_mpv_format
+public let format : mpv_format
 // Received property value. Depends on the format. This is like the
 // pointer argument passed to mpv_get_property().
 //
@@ -1158,7 +1158,7 @@ public let format : mpv_format_mpv_format
 // Note that this is set to NULL if retrieving the property failed (the
 // format will be MPV_FORMAT_NONE).
 public let data : CPointer<Unit>
-public init(name : CString , format : mpv_format_mpv_format , data : CPointer<Unit>) {
+public init(name : CString , format : mpv_format , data : CPointer<Unit>) {
     this.name = name
 this.format = format
 this.data = data
@@ -1412,8 +1412,8 @@ public struct mpv_event_command_mpv_event_command {
 // separately via mpv_event.error. This field is only for result data
 // in case of success. Most commands leave it at MPV_FORMAT_NONE. Set
 // to MPV_FORMAT_NONE on failure.
-public let result : mpv_node_mpv_node
-public init(result : mpv_node_mpv_node) {
+public let result : mpv_node
+public init(result : mpv_node) {
     this.result = result
 }
 }
@@ -1511,7 +1511,7 @@ let _ = {
 // @param src The source event. Not modified (it's not const due to the author's
 //            prejudice of the C version of const).
 // @return error code (MPV_ERROR_NOMEM only, if at all)
-foreign func mpv_event_to_node ( dst: CPointer<mpv_node_mpv_node> , src: CPointer<mpv_event_mpv_event> ) : Int32
+foreign func mpv_event_to_node ( dst: CPointer<mpv_node> , src: CPointer<mpv_event_mpv_event> ) : Int32
 
 // Enable or disable the given event.
 //
@@ -1525,7 +1525,7 @@ foreign func mpv_event_to_node ( dst: CPointer<mpv_node_mpv_node> , src: CPointe
 // @param event See enum mpv_event_id.
 // @param enable 1 to enable receiving this event, 0 to disable it.
 // @return error code
-foreign func mpv_request_event ( ctx: CPointer<mpv_handle_mpv_handle> , event: mpv_event_id_mpv_event_id , enable: Int32 ) : Int32
+foreign func mpv_request_event ( ctx: CPointer<mpv_handle> , event: mpv_event_id_mpv_event_id , enable: Int32 ) : Int32
 
 // Enable or disable receiving of log messages. These are the messages the
 // command line player prints to the terminal. This call sets the minimum
@@ -1539,7 +1539,7 @@ foreign func mpv_request_event ( ctx: CPointer<mpv_handle_mpv_handle> , event: m
 //                  even if the terminal is disabled. (Since API version 1.19.)
 //                  Also see mpv_log_level.
 // @return error code
-foreign func mpv_request_log_messages ( ctx: CPointer<mpv_handle_mpv_handle> , min_level: CString ) : Int32
+foreign func mpv_request_log_messages ( ctx: CPointer<mpv_handle> , min_level: CString ) : Int32
 
 // Wait for the next event, or until the timeout expires, or if another thread
 // makes a call to mpv_wakeup(). Passing 0 as timeout will never wait, and
@@ -1570,7 +1570,7 @@ foreign func mpv_request_log_messages ( ctx: CPointer<mpv_handle_mpv_handle> , m
 //         the struct, and all memory referenced by it will be automatically
 //         released by the API on the next mpv_wait_event() call, or when the
 //         context is destroyed. The return value is never NULL.
-foreign func mpv_wait_event ( ctx: CPointer<mpv_handle_mpv_handle> , timeout: Float64 ) : CPointer<mpv_event_mpv_event>
+foreign func mpv_wait_event ( ctx: CPointer<mpv_handle> , timeout: Float64 ) : CPointer<mpv_event_mpv_event>
 
 // Interrupt the current mpv_wait_event() call. This will wake up the thread
 // currently waiting in mpv_wait_event(). If no thread is waiting, the next
@@ -1583,7 +1583,7 @@ foreign func mpv_wait_event ( ctx: CPointer<mpv_handle_mpv_handle> , timeout: Fl
 // is woken up at all.
 //
 // Safe to be called from mpv render API threads.
-foreign func mpv_wakeup ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
+foreign func mpv_wakeup ( ctx: CPointer<mpv_handle> ) : Unit
 
 // Set a custom function that should be called when there are new events. Use
 // this if blocking in mpv_wait_event() to wait for new events is not feasible.
@@ -1619,7 +1619,7 @@ foreign func mpv_wakeup ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
 //
 // @param cb function that should be called if a wakeup is required
 // @param d arbitrary userdata passed to cb
-foreign func mpv_set_wakeup_callback ( ctx: CPointer<mpv_handle_mpv_handle> , cb: CFunc<(d: CPointer<Unit>) -> Unit> , d: CPointer<Unit> ) : Unit
+foreign func mpv_set_wakeup_callback ( ctx: CPointer<mpv_handle> , cb: CFunc<(d: CPointer<Unit>) -> Unit> , d: CPointer<Unit> ) : Unit
 
 // Block until all asynchronous requests are done. This affects functions like
 // mpv_command_async(), which return immediately and return their result as
@@ -1631,7 +1631,7 @@ foreign func mpv_set_wakeup_callback ( ctx: CPointer<mpv_handle_mpv_handle> , cb
 //
 // In case you called mpv_suspend() before, this will also forcibly reset the
 // suspend counter of the given handle.
-foreign func mpv_wait_async_requests ( ctx: CPointer<mpv_handle_mpv_handle> ) : Unit
+foreign func mpv_wait_async_requests ( ctx: CPointer<mpv_handle> ) : Unit
 
 // A hook is like a synchronous event that blocks the player. You register
 // a hook handler with this function. You will get an event, which you need
@@ -1666,7 +1666,7 @@ foreign func mpv_wait_async_requests ( ctx: CPointer<mpv_handle_mpv_handle> ) : 
 //             raised.
 // @param priority See remarks above. Use 0 as a neutral default.
 // @return error code (usually fails only on OOM)
-foreign func mpv_hook_add ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdata: UInt64 , name: CString , priority: Int32 ) : Int32
+foreign func mpv_hook_add ( ctx: CPointer<mpv_handle> , reply_userdata: UInt64 , name: CString , priority: Int32 ) : Int32
 
 // Respond to a MPV_EVENT_HOOK event. You must call this after you have handled
 // the event. There is no way to "cancel" or "stop" the hook.
@@ -1682,7 +1682,7 @@ foreign func mpv_hook_add ( ctx: CPointer<mpv_handle_mpv_handle> , reply_userdat
 // @param id This must be the value of the mpv_event_hook.id field for the
 //           corresponding MPV_EVENT_HOOK.
 // @return error code
-foreign func mpv_hook_continue ( ctx: CPointer<mpv_handle_mpv_handle> , id: UInt64 ) : Int32
+foreign func mpv_hook_continue ( ctx: CPointer<mpv_handle> , id: UInt64 ) : Int32
 
 // Return a UNIX file descriptor referring to the read end of a pipe. This
 // pipe can be used to wake up a poll() based processing loop. The purpose of
@@ -1740,4 +1740,4 @@ foreign func mpv_hook_continue ( ctx: CPointer<mpv_handle_mpv_handle> , id: UInt
 //
 // @return A UNIX FD of the read end of the wakeup pipe, or -1 on error.
 //         On MS Windows/MinGW, this will always return -1.
-foreign func mpv_get_wakeup_pipe ( ctx: CPointer<mpv_handle_mpv_handle> ) : Int32
+foreign func mpv_get_wakeup_pipe ( ctx: CPointer<mpv_handle> ) : Int32

@@ -120,6 +120,8 @@ public class NativePlayer {
             configs.add(("opengl-es", "yes"))
             configs.add(("egl-output-format", "rgba8"))
         }
+        configs.add(("osc", if (config.osc) { "yes" } else { "no" }))
+        configs.add(("osd-level", if (config.osd) { "1" } else { "0" }))
         configs.add(("deinterlace", if (config.deinterlace) { "yes" } else { "no" }))
         configs.add(("alang", config.alang))
         configs.add(("slang", config.slang))

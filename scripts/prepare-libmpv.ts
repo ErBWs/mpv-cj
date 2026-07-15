@@ -5,7 +5,7 @@
 import { createHash } from 'crypto';
 import { execFile } from 'child_process';
 import { createWriteStream } from 'fs';
-import { access, readFile, rm } from 'fs/promises';
+import { access, mkdir, readFile, rm } from 'fs/promises';
 import { get } from 'https';
 import { join, resolve } from 'path';
 
@@ -67,7 +67,7 @@ function download(url: string, output: string, redirects: number = MAX_REDIRECTS
 
 function extract(source: string, destination: string): Promise<void> {
     let command = 'unzip';
-    let args = [source, '-d', destination];
+    let args = ['-o', source, '-d', destination];
 
     if (process.platform === 'win32') {
         command = 'powershell.exe';
@@ -110,6 +110,7 @@ export async function prepareLibmpv(moduleDir: string): Promise<void> {
             throw new Error(`SHA-256 verification failed for ${archive}`);
         }
 
+        await mkdir(destination, { recursive: true });
         await extract(archive, destination);
     }
 }

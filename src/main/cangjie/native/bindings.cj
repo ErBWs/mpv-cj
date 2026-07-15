@@ -564,7 +564,6 @@ let _ = {
 @C
 public struct mpv_node_mpv_node {
 public let u : mpv_node__cjbind_ty_1__cjbind_ty_1
-public let __cjbind_anon_1 : mpv_node__cjbind_ty_1__cjbind_ty_1
 // Type of the data stored in this struct. This value rules what members in
 // the given union can be accessed. The following formats are currently
 // defined to be allowed in mpv_node:
@@ -581,9 +580,8 @@ public let __cjbind_anon_1 : mpv_node__cjbind_ty_1__cjbind_ty_1
 // If you encounter a value you don't know, you must not make any
 // assumptions about the contents of union u.
 public let format : mpv_format_mpv_format
-public init(u : mpv_node__cjbind_ty_1__cjbind_ty_1 , __cjbind_anon_1 : mpv_node__cjbind_ty_1__cjbind_ty_1 , format : mpv_format_mpv_format) {
+public init(u : mpv_node__cjbind_ty_1__cjbind_ty_1 , format : mpv_format_mpv_format) {
     this.u = u
-this.__cjbind_anon_1 = __cjbind_anon_1
 this.format = format
 }
 }

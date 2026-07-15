@@ -250,6 +250,41 @@ public class NativePlayer {
     }
 
     /**
+     * Invoke an mpv command represented by an mpv node.
+     *
+     * @param command   Command and arguments represented by an mpv node.
+     *
+     * @return Union of the returned mpv_node.
+     */
+    public func commandWithReturn(command: MpvNodeUnion): MpvNodeUnion {
+        checkHandle()
+
+        unsafe {
+            let args = LibC.malloc<mpv_node_mpv_node>()
+            args.write(mpvNodeUnionToMpvNode(command))
+
+            let result = LibC.malloc<mpv_node_mpv_node>()
+            result.write(mpvNodeUnionToMpvNode(MpvNodeUnion.MpvNull))
+
+            let status = mpv_command_node(handle, args, result)
+
+            freeMpvNode(args.read())
+            LibC.free(args)
+
+            var ret: MpvNodeUnion = MpvNodeUnion.MpvNull
+            if (status >= 0) {
+                ret = mpvNodeToMpvNodeUnion(result.read())
+                mpv_free_node_contents(result)
+            } else {
+                let error = mpv_error_string(status).toString()
+                @erbwsLogger[e]("mpv command failed: ${error}")
+            }
+            LibC.free(result)
+            ret
+        }
+    }
+
+    /**
      * Reads property.
      * Please use this method only if you know what you are doing.
      * See

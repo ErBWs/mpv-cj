@@ -6,6 +6,7 @@ package ohos_app_cangjie_mpvcj
 
 import std.sync.Mutex
 import std.collection.ArrayList
+import std.collection.HashMap
 import ohos_app_cangjie_mpvcj.native.NativePlayer
 import ohos_app_cangjie_mpvcj.native.MpvNodeUnion
 import ohos_app_cangjie_mpvcj.models.PlayerState
@@ -106,7 +107,36 @@ public class Player <: XComponentController {
             native.setProperty("pause", true)
 
             for (media in playlist.medias) {
-                native.command(["loadfile", media.uri, "append"])
+                let options = HashMap<String, MpvNodeUnion>()
+
+                if (let Some(httpHeaders) <- media.httpHeaders && !httpHeaders.isEmpty()) {
+                    let headers = ArrayList<String>()
+                    for ((name, value) in httpHeaders) {
+                        let header = "${name}: ${value}"
+                        headers.add("%${header.size}%${header}")
+                    }
+                    options["http-header-fields"] = MpvNodeUnion.MpvString(
+                        String.join(headers.toArray(), delimiter: ",")
+                    )
+                }
+                if (let Some(start) <- media.start) {
+                    options["start"] = MpvNodeUnion.MpvString(
+                        "${Float64(start.toMilliseconds()) / 1000.0}"
+                    )
+                }
+                if (let Some(end) <- media.end) {
+                    options["end"] = MpvNodeUnion.MpvString(
+                        "${Float64(end.toMilliseconds()) / 1000.0}"
+                    )
+                }
+
+                native.commandWithReturn(MpvNodeUnion.MpvArray([
+                    MpvNodeUnion.MpvString("loadfile"),
+                    MpvNodeUnion.MpvString(media.uri),
+                    MpvNodeUnion.MpvString("append"),
+                    MpvNodeUnion.MpvInt64(-1),
+                    MpvNodeUnion.MpvMap(options)
+                ]))
             }
 
             native.setProperty("playlist-pos", playlist.index)

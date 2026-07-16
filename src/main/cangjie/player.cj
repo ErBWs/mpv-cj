@@ -142,8 +142,6 @@ public class Player <: XComponentController {
             native.setProperty("playlist-pos", playlist.index)
 
             if (play) {
-                native.state.playing = true
-                native.stream.playing.add(true)
                 native.setProperty("pause", false)
             }
         }
@@ -203,8 +201,6 @@ public class Player <: XComponentController {
                 seek(Duration.Zero)
                 native.setProperty("playlist-pos", 0)
             }
-            native.state.playing = true
-            native.stream.playing.add(true)
             native.setProperty("pause", false)
         }
     }
@@ -214,8 +210,6 @@ public class Player <: XComponentController {
      */
     public func pause() {
         synchronized(mtx) {
-            native.state.playing = false
-            native.stream.playing.add(false)
             native.setProperty("pause", true)
         }
     }
@@ -225,9 +219,7 @@ public class Player <: XComponentController {
      */
     public func playOrPause() {
         synchronized(mtx) {
-            native.state.playing = !native.state.playing
-            native.stream.playing.add(native.state.playing)
-            native.setProperty("pause", !native.state.playing)
+            native.command(["cycle", "pause"])
         }
     }
 

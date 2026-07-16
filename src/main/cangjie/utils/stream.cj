@@ -8,11 +8,24 @@ import std.sync.Mutex
 import std.collection.ArrayList
 import ohos.concurrency.launch
 
+private class StreamEvent<T> {
+    let value: T
+    let listeners: ArrayList<(T) -> Unit>
+
+    init(value: T, listeners: ArrayList<(T) -> Unit>) {
+        this.value = value
+        this.listeners = listeners
+    }
+}
+
 public class Stream<T> {
     private let mtx = Mutex()
     private let listeners = ArrayList<(T) -> Unit>()
+    private let pendings = ArrayList<StreamEvent<T>>()
     private let equal: ?((T, T) -> Bool)
     private var lastValue = Option<T>.None
+    private var nextEvent: Int64 = 0
+    private var isScheduled = false
     private var _isClosed = false
 
     public init() {
@@ -35,6 +48,8 @@ public class Stream<T> {
         synchronized(mtx) {
             _isClosed = true
             listeners.clear()
+            pendings.clear()
+            nextEvent = 0
         }
     }
 
@@ -47,9 +62,9 @@ public class Stream<T> {
     }
 
     public func add(value: T) {
-        var snapshot = ArrayList<(T) -> Unit>()
+        var broadcast = false
         synchronized(mtx) {
-            if (_isClosed) {
+            if (_isClosed || listeners.size == 0) {
                 return
             }
             if (let Some(eq) <- equal) {
@@ -60,10 +75,39 @@ public class Stream<T> {
                 }
             }
             lastValue = value
-            snapshot = ArrayList<(T) -> Unit>(listeners.size, { i => listeners[i] })
+
+            let snapshot = ArrayList<(T) -> Unit>(listeners.size, { i => listeners[i] })
+            pendings.add(StreamEvent(value, snapshot))
+            if (!isScheduled) {
+                isScheduled = true
+                broadcast = true
+            }
         }
-        for (callback in snapshot) {
-            launch { callback(value) }
+
+        if (broadcast) {
+            launch { dispatch() }
+        }
+    }
+
+    private func dispatch() {
+        while (true) {
+            var event = Option<StreamEvent<T>>.None
+            synchronized(mtx) {
+                if (_isClosed || nextEvent >= pendings.size) {
+                    pendings.clear()
+                    nextEvent = 0
+                    isScheduled = false
+                    return
+                }
+                event = pendings[nextEvent]
+                nextEvent++
+            }
+
+            if (let Some(current) <- event) {
+                for (callback in current.listeners) {
+                    callback(current.value)
+                }
+            }
         }
     }
 }

@@ -313,11 +313,11 @@ player.setSubtitleTrack(SubtitleTrack.uri(
 
 ### 截图
 
-
+可以通过命名参数选择截图是否携带字幕，默认携带。返回 `PixelMap`。
 
 ```cangjie
 let pic = player.screenshot()
-let frameWithoutSubtitles = player.screenshot(withSub: false)
+let picWithSub = player.screenshot(withSub: false)
 ```
 
 ### 销毁播放器

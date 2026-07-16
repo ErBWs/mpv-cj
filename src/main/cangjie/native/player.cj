@@ -144,7 +144,6 @@ public class NativePlayer {
             ("volume", MPV_FORMAT_DOUBLE),
             ("speed", MPV_FORMAT_DOUBLE),
             ("eof-reached", MPV_FORMAT_FLAG),
-            ("idle-active", MPV_FORMAT_FLAG),
             ("cache-buffering-state", MPV_FORMAT_DOUBLE),
             ("demuxer-cache-time", MPV_FORMAT_INT64)
         ]
@@ -779,13 +778,6 @@ public class NativePlayer {
                                 stream.buffering.add(false)
                                 stream.track.add(state.track)
                                 stream.tracks.add(state.tracks)
-                            }
-                        }
-                    case "idle-active" =>
-                        if (property.format == MPV_FORMAT_FLAG) {
-                            if (!stream.ready.isClosed) {
-                            	stream.ready.add(true)
-                                stream.ready.close()
                             }
                         }
                     case "cache-buffering-state" =>

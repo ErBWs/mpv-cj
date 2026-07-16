@@ -8,10 +8,6 @@ import ohos_app_cangjie_mpvcj.utils.Stream
 
 public class PlayerStream {
     /**
-    * Called once when mpv initialization is completed.
-    */
-    public var ready = Stream<Bool>()
-    /**
     * Currently opened files.
     */
     public var playlist = Stream<Playlist> {
@@ -125,7 +121,6 @@ public class PlayerStream {
     public var error = Stream<String>()
 
     public func destroy() {
-        ready.close()
         playlist.close()
         playing.close()
         eof.close()

@@ -5,14 +5,14 @@
 ## 功能特性
 
 - [x] 基础音视频播放及控制
-- [x] `ohcodec` 硬件解码
+- [x] 硬件解码
 - [x] Audio Vivid (菁彩三维声) 播放
 - [x] 播放列表控制及循环模式选择
 - [x] 音量和播放速度调节
 - [x] 视频、音频和字幕轨道选择
 - [x] 加载外部音轨和字幕
 - [x] 同步读取状态和订阅事件流
-- [ ] 自定义 http headers
+- [x] 自定义 http headers
 
 ## 安装
 
@@ -86,12 +86,10 @@ class EntryView {
 - [渲染视频](#渲染视频)
 - [播放控制](#播放控制)
 - [设置播放列表模式](#设置播放列表模式)
-- [读取状态和处理事件](#读取状态和处理事件)
+- [播放器状态](#播放器状态)
 - [选择轨道](#选择轨道)
-- [加载外部轨道](#加载外部轨道)
-- [截取画面](#截取画面)
-- [使用原生接口](#使用原生接口)
-- [释放资源](#释放资源)
+- [截图](#截图)
+- [销毁播放器](#销毁播放器)
 
 ### 创建播放器
 
@@ -140,6 +138,19 @@ let playlist = Playlist(
     index: 1
 )
 player.open(playlist)
+```
+
+#### 媒体额外参数
+
+可通过命名参数额外配置每个媒体的 http 请求头、播放开始时间和播放结束时间
+
+```cangjie
+player.open(Media(
+    "https://example.com/1.mp4",
+    httpHeaders: HashMap<String, String>([("Referer", "https://example.com/")]),
+    start: Duration.Zero,
+    end: 12 * Duration.minute + 50 * Duration.second,
+))
 ```
 
 ### 渲染视频
@@ -204,61 +215,51 @@ player.setSpeed(1.25)
 player.setPlaylistMode(PlaylistMode.File)
 ```
 
-### 读取状态和处理事件
+### 播放器状态
 
 通过 `player.state` 立即读取当前状态：
 
 ```cangjie
-let playing = player.state.playing
-let position = player.state.position
+let track = player.state.track
+let chapters = player.state.chapters
 let duration = player.state.duration
 ```
 
-通过 `player.stream` 监听状态变化：
+通过 `player.stream` 绑定状态变量：
 
 ```cangjie
-player.stream.ready.listen { _ =>
-    println("mpv 已就绪")
-}
+@State
+var playing: Bool = false
 
-player.stream.playing.listen { playing =>
-    println(if (playing) { "正在播放" } else { "已暂停" })
-}
-
-player.stream.position.listen { position =>
-    println("播放位置：${position}")
-}
-
-player.stream.error.listen { message =>
-    println("mpv 错误：${message}")
+player.stream.playing.listen {
+    isPlaying => playing = isPlaying
 }
 ```
 
 支持以下状态和事件流：
 
-| 名称 | 类型 | 说明 |
-| --- | --- | --- |
-| `ready` | `Bool` | mpv 初始化完成，仅触发一次 |
-| `playlist` | `Playlist` | 当前播放列表和下标 |
-| `playing` | `Bool` | 是否正在播放 |
-| `eof` | `Bool` | 是否已到达当前文件末尾 |
-| `duration` | `Duration` | 当前媒体总时长 |
-| `position` | `Duration` | 当前绝对播放位置 |
-| `volume` | `Float64` | 当前音量 |
-| `speed` | `Float64` | 当前播放速度 |
-| `buffering` | `Bool` | 是否因等待缓存而暂停播放 |
-| `bufferingPercentage` | `Float64` | 恢复播放前的缓存填充百分比 |
-| `buffer` | `Duration` | 当前缓冲位置 |
-| `playlistMode` | `PlaylistMode` | 当前循环或随机播放模式 |
-| `track` | `Track` | 当前选中的视频、音频和字幕轨道 |
-| `tracks` | `Tracks` | 可用的视频、音频和字幕轨道 |
-| `chapters` | `ArrayList<Chapter>` | 可用章节 |
-| `videoParams` | `VideoParams` | 视频尺寸、格式、宽高比、色彩信息及其他参数 |
-| `videoBitrate` | `Float64` | 当前视频码率 |
-| `audioParams` | `AudioParams` | 音频格式、采样率和声道布局 |
-| `audioBitrate` | `Float64` | 当前音频码率 |
-| `log` | `PlayerLog` | 当前日志级别下的 mpv 日志消息 |
-| `error` | `String` | mpv 错误消息 |
+| 名称                    | 类型                   | 说明              |
+|-----------------------|----------------------|-----------------|
+| `playlist`            | `Playlist`           | 当前播放列表          |
+| `playing`             | `Bool`               | 播放状态            |
+| `eof`                 | `Bool`               | 是否播放完成          |
+| `duration`            | `Duration`           | 视频总时长           |
+| `position`            | `Duration`           | 播放位置            |
+| `volume`              | `Float64`            | 音量              |
+| `speed`               | `Float64`            | 播放速度            |
+| `buffering`           | `Bool`               | 是否因等待缓存而暂停播放    |
+| `bufferingPercentage` | `Float64`            | 缓存百分比           |
+| `buffer`              | `Duration`           | 缓冲位置            |
+| `playlistMode`        | `PlaylistMode`       | 播放列表模式          |
+| `track`               | `Track`              | 当前选中的视频、音频和字幕轨道 |
+| `tracks`              | `Tracks`             | 可用的视频、音频和字幕轨道   |
+| `chapters`            | `ArrayList<Chapter>` | 可用章节            |
+| `videoParams`         | `VideoParams`        | 视频参数            |
+| `videoBitrate`        | `Float64`            | 视频码率            |
+| `audioParams`         | `AudioParams`        | 音频参数            |
+| `audioBitrate`        | `Float64`            | 音频码率            |
+| `log`                 | `Stream<PlayerLog>`  | mpv 日志 (仅事件流)   |
+| `error`               | `Stream<String>`     | mpv 错误日志 (仅事件流) |
 
 ### 选择轨道
 
@@ -278,58 +279,54 @@ if (!tracks.subs.isEmpty()) {
 }
 ```
 
-使用 `auto()` 让 mpv 自动选择轨道，使用 `no()` 禁用对应轨道：
+#### 自动选择轨道
 
 ```cangjie
 player.setVideoTrack(VideoTrack.auto())
+player.setAudioTrack(AudioTrack.auto())
+player.setSubtitleTrack(SubtitleTrack.auto())
+```
+
+#### 禁用轨道
+
+```cangjie
+player.setVideoTrack(VideoTrack.no())
 player.setAudioTrack(AudioTrack.no())
 player.setSubtitleTrack(SubtitleTrack.no())
 ```
 
-### 加载外部轨道
+#### 加载外部音频或字幕轨道
 
 ```cangjie
 player.setAudioTrack(AudioTrack.uri(
     "https://example.com/audio.m4a",
-    lang: "eng",
-    title: "评论音轨"
+    lang: "chi",
+    title: "external"
 ))
 
 player.setSubtitleTrack(SubtitleTrack.uri(
     "https://example.com/subtitles.vtt",
     lang: "eng",
-    title: "英语"
+    title: "external"
 ))
 ```
 
-### 截取画面
+### 截图
 
-`screenshot` 将当前画面作为 HarmonyOS `PixelMap` 返回：
+
 
 ```cangjie
-let frame = player.screenshot()
+let pic = player.screenshot()
 let frameWithoutSubtitles = player.screenshot(withSub: false)
 ```
 
-### 使用原生接口
+### 销毁播放器
 
-当高级接口无法满足需求时，可以通过 `player.native` 调用底层 mpv 接口：
-
-```cangjie
-player.native.command(["show-text", "你好，mpv"])
-player.native.setProperty("mute", true)
-let paused = player.native.getPropertyBool("pause")
-```
-
-原生接口还支持属性和事件监听。这些接口与 libmpv 的概念直接对应，调用方应当了解 mpv 命令和属性的语义后再使用。底层 API 请参考 [mpv 手册](https://mpv.io/manual/master/)。
-
-### 释放资源
+不再使用播放器时应使用 `destroy` 销毁播放器。播放器销毁后不能再次使用。
 
 ```cangjie
 player.destroy()
 ```
-
-`destroy` 会停止播放、关闭所有事件流、取消原生事件线程并销毁 mpv 句柄。播放器销毁后不能再次使用。
 
 ## 开发者指南
 

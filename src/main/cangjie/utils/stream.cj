@@ -6,6 +6,7 @@ package ohos_app_cangjie_mpvcj.utils
 
 import std.sync.Mutex
 import std.collection.ArrayList
+import ohos.concurrency.launch
 
 public class Stream<T> {
     private let mtx = Mutex()
@@ -62,7 +63,7 @@ public class Stream<T> {
             snapshot = ArrayList<(T) -> Unit>(listeners.size, { i => listeners[i] })
         }
         for (callback in snapshot) {
-            callback(value)
+            launch { callback(value) }
         }
     }
 }

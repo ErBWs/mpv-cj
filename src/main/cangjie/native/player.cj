@@ -153,7 +153,10 @@ public class NativePlayer {
     }
 
     public func destroy() {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is already destroyed")
+            return
+        }
 
         stream.destroy()
         state = PlayerState()
@@ -179,7 +182,10 @@ public class NativePlayer {
      * @return Union of mpv_node
      */
     public func command(commands: Array<String>) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         if (commands.isEmpty()) {
             @erbwsLogger[e]("commands must not be empty")
@@ -216,11 +222,14 @@ public class NativePlayer {
      * @return Union of mpv_node
      */
     public func commandWithReturn(commands: Array<String>): MpvNodeUnion {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return MpvNodeUnion.MpvNull
+        }
 
         if (commands.isEmpty()) {
             @erbwsLogger[e]("commands must not be empty")
-            MpvNodeUnion.MpvNull
+            return MpvNodeUnion.MpvNull
         }
 
         unsafe {
@@ -256,7 +265,10 @@ public class NativePlayer {
      * @return Union of the returned mpv_node.
      */
     public func commandWithReturn(command: MpvNodeUnion): MpvNodeUnion {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return MpvNodeUnion.MpvNull
+        }
 
         unsafe {
             let args = LibC.malloc<mpv_node>()
@@ -295,7 +307,10 @@ public class NativePlayer {
      * @return Float64 property value.
      */
     public func getPropertyFloat64(property: String): Float64 {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return 0.0
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -318,7 +333,10 @@ public class NativePlayer {
      * @return Int64 property value.
      */
     public func getPropertyInt64(property: String): Int64 {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return 0
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -341,7 +359,10 @@ public class NativePlayer {
      * @return Bool property value.
      */
     public func getPropertyBool(property: String): Bool {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return false
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -364,7 +385,10 @@ public class NativePlayer {
      * @return String property value.
      */
     public func getPropertyString(property: String): String {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return ""
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -372,7 +396,7 @@ public class NativePlayer {
             LibC.free(name)
 
             if (res.isNull()) {
-                ""
+                return ""
             }
 
             let ret = res.toString()
@@ -392,7 +416,10 @@ public class NativePlayer {
      * @param value     Property value.
      */
     public func setProperty(property: String, value: Int64) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -413,7 +440,10 @@ public class NativePlayer {
      * @param value     Property value.
      */
     public func setProperty(property: String, value: Float64) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -434,7 +464,10 @@ public class NativePlayer {
      * @param value     Property value.
      */
     public func setProperty(property: String, value: Bool) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -455,7 +488,10 @@ public class NativePlayer {
      * @param value     Property value.
      */
     public func setProperty(property: String, value: String) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -477,7 +513,10 @@ public class NativePlayer {
      * @param callback  Callback invoked when the property changes.
      */
     public func observeProperty(property: String, callback: (String) -> Unit) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         if (observedProperties.contains(property) || observerKeys.contains(property)) {
         	@erbwsLogger[e]("${property} already observed")
@@ -501,7 +540,10 @@ public class NativePlayer {
      * @param callback  Callback invoked when the property changes.
      */
     public func unobserveProperty(property: String) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         if (!observedProperties.contains(property) && !observerKeys.contains(property)) {
         	@erbwsLogger[e]("${property} is not observed")
@@ -527,7 +569,10 @@ public class NativePlayer {
      * @param callback  Callback invoked when the event happens.
      */
     public func observeEvent(event: UInt32, callback: (UInt32) -> Unit): Unit {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         if (observedEvents.contains(event)) {
         	@erbwsLogger[e]("${event} already observed")
@@ -548,7 +593,10 @@ public class NativePlayer {
      * @param callback  Callback invoked when the event happens.
      */
     public func unobserveEvent(event: UInt32) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe { mpv_request_event(handle, event, 0) }
 
@@ -558,7 +606,10 @@ public class NativePlayer {
     }
 
     private func setOptionString(option: String, value: String) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(option)
@@ -570,7 +621,10 @@ public class NativePlayer {
     }
 
     private func _observeProperty(property: String, format: mpv_format, key!: UInt64 = 0) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
@@ -580,19 +634,15 @@ public class NativePlayer {
     }
 
     private func _unobserveProperty(property: String, key: UInt64) {
-        checkHandle()
+        if (handle.isNull()) {
+            @erbwsLogger[e]("mpv handle is unavailable")
+            return
+        }
 
         unsafe {
             let name = LibC.mallocCString(property)
             mpv_unobserve_property(handle, key)
             LibC.free(name)
-        }
-    }
-
-    private func checkHandle() {
-        if (handle.isNull()) {
-            @erbwsLogger[e]("mpv handle is unavailable")
-            return
         }
     }
 

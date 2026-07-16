@@ -75,10 +75,7 @@ public class NativePlayer {
             	setOptionString(name, opts)
             }
 
-            if (mpv_initialize(handle) < 0) {
-            	@erbwsLogger[e]("mpv init failed")
-                return
-            }
+            mpv_initialize(handle)
         }
 
         thread = spawn { threadEvent() }
@@ -243,15 +240,23 @@ public class NativePlayer {
             CPointer<UIntNative>(ptr + commands.size).write(0)
 
             let res = LibC.malloc<mpv_node>()
-            mpv_command_ret(handle, ptr, res)
+            res.write(mpvNodeUnionToMpvNode(MpvNodeUnion.MpvNull))
+
+            let status = mpv_command_ret(handle, ptr, res)
 
             for (cstr in cstrs) {
                 LibC.free(cstr)
             }
             LibC.free(ptr)
 
-            let ret = mpvNodeToMpvNodeUnion(res.read())
-            mpv_free_node_contents(res)
+            var ret: MpvNodeUnion = MpvNodeUnion.MpvNull
+            if (status >= 0) {
+                ret = mpvNodeToMpvNodeUnion(res.read())
+                mpv_free_node_contents(res)
+            } else {
+                let error = mpv_error_string(status).toString()
+                @erbwsLogger[e]("mpv command failed: ${error}")
+            }
             LibC.free(res)
             ret
         }
@@ -274,23 +279,23 @@ public class NativePlayer {
             let args = LibC.malloc<mpv_node>()
             args.write(mpvNodeUnionToMpvNode(command))
 
-            let result = LibC.malloc<mpv_node>()
-            result.write(mpvNodeUnionToMpvNode(MpvNodeUnion.MpvNull))
+            let res = LibC.malloc<mpv_node>()
+            res.write(mpvNodeUnionToMpvNode(MpvNodeUnion.MpvNull))
 
-            let status = mpv_command_node(handle, args, result)
+            let status = mpv_command_node(handle, args, res)
 
             freeMpvNode(args.read())
             LibC.free(args)
 
             var ret: MpvNodeUnion = MpvNodeUnion.MpvNull
             if (status >= 0) {
-                ret = mpvNodeToMpvNodeUnion(result.read())
-                mpv_free_node_contents(result)
+                ret = mpvNodeToMpvNodeUnion(res.read())
+                mpv_free_node_contents(res)
             } else {
                 let error = mpv_error_string(status).toString()
                 @erbwsLogger[e]("mpv command failed: ${error}")
             }
-            LibC.free(result)
+            LibC.free(res)
             ret
         }
     }

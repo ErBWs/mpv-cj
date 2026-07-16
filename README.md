@@ -4,6 +4,10 @@
 
 ## 功能特性
 
+> [!IMPORTANT]
+> 
+> 该模块仅支持 `aarch64-linux-ohos`
+
 - [x] 基础音视频播放及控制
 - [x] 硬件解码
 - [x] Audio Vivid (菁彩三维声) 播放

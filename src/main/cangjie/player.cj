@@ -143,6 +143,8 @@ public class Player <: XComponentController {
 
             if (play) {
                 native.setProperty("pause", false)
+                native.state.playing = true
+                native.stream.playing.add(true)
             }
         }
     }

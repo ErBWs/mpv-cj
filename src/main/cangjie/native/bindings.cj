@@ -1017,40 +1017,40 @@ foreign func mpv_observe_property ( mpv: CPointer<mpv_handle> , reply_userdata: 
 foreign func mpv_unobserve_property ( mpv: CPointer<mpv_handle> , registered_reply_userdata: UInt64 ) : Int32
 
 // Nothing happened. Happens on timeouts or sporadic wakeups.
-public const mpv_event_id_MPV_EVENT_NONE : mpv_event_id_mpv_event_id = 0
+public const MPV_EVENT_NONE : mpv_event_id = 0
 
 // Happens when the player quits. The player enters a state where it tries
 // to disconnect all clients. Most requests to the player will fail, and
 // the client should react to this and quit with mpv_destroy() as soon as
 // possible.
-public const mpv_event_id_MPV_EVENT_SHUTDOWN : mpv_event_id_mpv_event_id = 1
+public const MPV_EVENT_SHUTDOWN : mpv_event_id = 1
 
 // See mpv_request_log_messages().
-public const mpv_event_id_MPV_EVENT_LOG_MESSAGE : mpv_event_id_mpv_event_id = 2
+public const MPV_EVENT_LOG_MESSAGE : mpv_event_id = 2
 
 // Reply to a mpv_get_property_async() request.
 // See also mpv_event and mpv_event_property.
-public const mpv_event_id_MPV_EVENT_GET_PROPERTY_REPLY : mpv_event_id_mpv_event_id = 3
+public const MPV_EVENT_GET_PROPERTY_REPLY : mpv_event_id = 3
 
 // Reply to a mpv_set_property_async() request.
 // (Unlike MPV_EVENT_GET_PROPERTY, mpv_event_property is not used.)
-public const mpv_event_id_MPV_EVENT_SET_PROPERTY_REPLY : mpv_event_id_mpv_event_id = 4
+public const MPV_EVENT_SET_PROPERTY_REPLY : mpv_event_id = 4
 
 // Reply to a mpv_command_async() or mpv_command_node_async() request.
 // See also mpv_event and mpv_event_command.
-public const mpv_event_id_MPV_EVENT_COMMAND_REPLY : mpv_event_id_mpv_event_id = 5
+public const MPV_EVENT_COMMAND_REPLY : mpv_event_id = 5
 
 // Notification before playback start of a file (before the file is loaded).
 // See also mpv_event and mpv_event_start_file.
-public const mpv_event_id_MPV_EVENT_START_FILE : mpv_event_id_mpv_event_id = 6
+public const MPV_EVENT_START_FILE : mpv_event_id = 6
 
 // Notification after playback end (after the file was unloaded).
 // See also mpv_event and mpv_event_end_file.
-public const mpv_event_id_MPV_EVENT_END_FILE : mpv_event_id_mpv_event_id = 7
+public const MPV_EVENT_END_FILE : mpv_event_id = 7
 
 // Notification when the file has been loaded (headers were read etc.), and
 // decoding starts.
-public const mpv_event_id_MPV_EVENT_FILE_LOADED : mpv_event_id_mpv_event_id = 8
+public const MPV_EVENT_FILE_LOADED : mpv_event_id = 8
 
 // Idle mode was entered. In this mode, no file is played, and the playback
 // core waits for new commands. (The command line player normally quits
@@ -1062,7 +1062,7 @@ public const mpv_event_id_MPV_EVENT_FILE_LOADED : mpv_event_id_mpv_event_id = 8
 //             removed in the far future. As a further warning, this event
 //             is not necessarily sent at the right point anymore (at the
 //             start of the program), while the property behaves correctly.
-public const mpv_event_id_MPV_EVENT_IDLE : mpv_event_id_mpv_event_id = 11
+public const MPV_EVENT_IDLE : mpv_event_id = 11
 
 // Sent every time after a video frame is displayed. Note that currently,
 // this will be sent in lower frequency if there is no video, or playback
@@ -1071,14 +1071,14 @@ public const mpv_event_id_MPV_EVENT_IDLE : mpv_event_id_mpv_event_id = 11
 //
 // @deprecated Use mpv_observe_property() with relevant properties instead
 //             (such as "playback-time").
-public const mpv_event_id_MPV_EVENT_TICK : mpv_event_id_mpv_event_id = 14
+public const MPV_EVENT_TICK : mpv_event_id = 14
 
 // Triggered by the script-message input command. The command uses the
 // first argument of the command as client name (see mpv_client_name()) to
 // dispatch the message, and passes along all arguments starting from the
 // second argument as strings.
 // See also mpv_event and mpv_event_client_message.
-public const mpv_event_id_MPV_EVENT_CLIENT_MESSAGE : mpv_event_id_mpv_event_id = 16
+public const MPV_EVENT_CLIENT_MESSAGE : mpv_event_id = 16
 
 // Happens after video changed in some way. This can happen on resolution
 // changes, pixel format changes, or video filter changes. The event is
@@ -1088,25 +1088,25 @@ public const mpv_event_id_MPV_EVENT_CLIENT_MESSAGE : mpv_event_id_mpv_event_id =
 // Note that this event can happen sporadically, and you should check
 // yourself whether the video parameters really changed before doing
 // something expensive.
-public const mpv_event_id_MPV_EVENT_VIDEO_RECONFIG : mpv_event_id_mpv_event_id = 17
+public const MPV_EVENT_VIDEO_RECONFIG : mpv_event_id = 17
 
 // Similar to MPV_EVENT_VIDEO_RECONFIG. This is relatively uninteresting,
 // because there is no such thing as audio output embedding.
-public const mpv_event_id_MPV_EVENT_AUDIO_RECONFIG : mpv_event_id_mpv_event_id = 18
+public const MPV_EVENT_AUDIO_RECONFIG : mpv_event_id = 18
 
 // Happens when a seek was initiated. Playback stops. Usually it will
 // resume with MPV_EVENT_PLAYBACK_RESTART as soon as the seek is finished.
-public const mpv_event_id_MPV_EVENT_SEEK : mpv_event_id_mpv_event_id = 20
+public const MPV_EVENT_SEEK : mpv_event_id = 20
 
 // There was a discontinuity of some sort (like a seek), and playback
 // was reinitialized. Usually happens on start of playback and after
 // seeking. The main purpose is allowing the client to detect when a seek
 // request is finished.
-public const mpv_event_id_MPV_EVENT_PLAYBACK_RESTART : mpv_event_id_mpv_event_id = 21
+public const MPV_EVENT_PLAYBACK_RESTART : mpv_event_id = 21
 
 // Event sent due to mpv_observe_property().
 // See also mpv_event and mpv_event_property.
-public const mpv_event_id_MPV_EVENT_PROPERTY_CHANGE : mpv_event_id_mpv_event_id = 22
+public const MPV_EVENT_PROPERTY_CHANGE : mpv_event_id = 22
 
 // Happens if the internal per-mpv_handle ringbuffer overflows, and at
 // least 1 event had to be dropped. This can happen if the client doesn't
@@ -1115,15 +1115,15 @@ public const mpv_event_id_MPV_EVENT_PROPERTY_CHANGE : mpv_event_id_mpv_event_id 
 //
 // Event delivery will continue normally once this event was returned
 // (this forces the client to empty the queue completely).
-public const mpv_event_id_MPV_EVENT_QUEUE_OVERFLOW : mpv_event_id_mpv_event_id = 24
+public const MPV_EVENT_QUEUE_OVERFLOW : mpv_event_id = 24
 
 // Triggered if a hook handler was registered with mpv_hook_add(), and the
 // hook is invoked. If you receive this, you must handle it, and continue
 // the hook with mpv_hook_continue().
 // See also mpv_event and mpv_event_hook.
-public const mpv_event_id_MPV_EVENT_HOOK : mpv_event_id_mpv_event_id = 25
+public const MPV_EVENT_HOOK : mpv_event_id = 25
 
-public type mpv_event_id_mpv_event_id = UInt32
+public type mpv_event_id = UInt32
 
 // Return a string describing the event. For unknown events, NULL is returned.
 //
@@ -1137,10 +1137,10 @@ public type mpv_event_id_mpv_event_id = UInt32
 //         interfaces.
 //         The string is completely static, i.e. doesn't need to be deallocated,
 //         and is valid forever.
-foreign func mpv_event_name ( event: mpv_event_id_mpv_event_id ) : CString
+foreign func mpv_event_name ( event: mpv_event_id ) : CString
 
 @C
-public struct mpv_event_property_mpv_event_property {
+public struct mpv_event_property {
 // Name of the property.
 public let name : CString
 // Format of the data field in the same struct. See enum mpv_format.
@@ -1168,48 +1168,48 @@ this.data = data
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_property_mpv_event_property>()
+    let size = sizeOf<mpv_event_property>()
     if (size != 24) {
-        throw Exception("Size of mpv_event_property_mpv_event_property is not 24 but ${size} bytes")
+        throw Exception("Size of mpv_event_property is not 24 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_property_mpv_event_property>()
+    let align = alignOf<mpv_event_property>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_property_mpv_event_property is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_property is not 8 but ${align} bytes")
     }
 }
 
-public const mpv_log_level_MPV_LOG_LEVEL_NONE : mpv_log_level_mpv_log_level = 0
+public const MPV_LOG_LEVEL_NONE : mpv_log_level = 0
 
 // "no"    - disable absolutely all messages
-public const mpv_log_level_MPV_LOG_LEVEL_FATAL : mpv_log_level_mpv_log_level = 10
+public const MPV_LOG_LEVEL_FATAL : mpv_log_level = 10
 
 // "fatal" - critical/aborting errors
-public const mpv_log_level_MPV_LOG_LEVEL_ERROR : mpv_log_level_mpv_log_level = 20
+public const MPV_LOG_LEVEL_ERROR : mpv_log_level = 20
 
 // "error" - simple errors
-public const mpv_log_level_MPV_LOG_LEVEL_WARN : mpv_log_level_mpv_log_level = 30
+public const MPV_LOG_LEVEL_WARN : mpv_log_level = 30
 
 // "warn"  - possible problems
-public const mpv_log_level_MPV_LOG_LEVEL_INFO : mpv_log_level_mpv_log_level = 40
+public const MPV_LOG_LEVEL_INFO : mpv_log_level = 40
 
 // "info"  - informational message
-public const mpv_log_level_MPV_LOG_LEVEL_V : mpv_log_level_mpv_log_level = 50
+public const MPV_LOG_LEVEL_V : mpv_log_level = 50
 
 // "v"     - noisy informational message
-public const mpv_log_level_MPV_LOG_LEVEL_DEBUG : mpv_log_level_mpv_log_level = 60
+public const MPV_LOG_LEVEL_DEBUG : mpv_log_level = 60
 
 // "debug" - very noisy technical information
-public const mpv_log_level_MPV_LOG_LEVEL_TRACE : mpv_log_level_mpv_log_level = 70
+public const MPV_LOG_LEVEL_TRACE : mpv_log_level = 70
 
 // Numeric log levels. The lower the number, the more important the message is.
 // MPV_LOG_LEVEL_NONE is never used when receiving messages. The string in
 // the comment after the value is the name of the log level as used for the
 // mpv_request_log_messages() function.
 // Unused numeric values are unused, but reserved for future use.
-public type mpv_log_level_mpv_log_level = UInt32
+public type mpv_log_level = UInt32
 
 @C
-public struct mpv_event_log_message_mpv_event_log_message {
+public struct mpv_event_log_message {
 // The module prefix, identifies the sender of the message. As a special
 // case, if the message buffer overflows, this will be set to the string
 // "overflow" (which doesn't appear as prefix otherwise), and the text
@@ -1224,8 +1224,8 @@ public let level : CString
 public let text : CString
 // The same contents as the level field, but as a numeric ID.
 // Since API version 1.6.
-public let log_level : mpv_log_level_mpv_log_level
-public init(prefix : CString , level : CString , text : CString , log_level : mpv_log_level_mpv_log_level) {
+public let log_level : mpv_log_level
+public init(prefix : CString , level : CString , text : CString , log_level : mpv_log_level) {
     this.prefix = prefix
 this.level = level
 this.text = text
@@ -1236,13 +1236,13 @@ this.log_level = log_level
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_log_message_mpv_event_log_message>()
+    let size = sizeOf<mpv_event_log_message>()
     if (size != 32) {
-        throw Exception("Size of mpv_event_log_message_mpv_event_log_message is not 32 but ${size} bytes")
+        throw Exception("Size of mpv_event_log_message is not 32 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_log_message_mpv_event_log_message>()
+    let align = alignOf<mpv_event_log_message>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_log_message_mpv_event_log_message is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_log_message is not 8 but ${align} bytes")
     }
 }
 
@@ -1250,20 +1250,20 @@ let _ = {
 // incomplete or corrupted files, or if the network connection was
 // interrupted when playing a remote file. It also happens if the
 // playback range was restricted with --end or --frames or similar.
-public const mpv_end_file_reason_MPV_END_FILE_REASON_EOF : mpv_end_file_reason_mpv_end_file_reason = 0
+public const MPV_END_FILE_REASON_EOF : mpv_end_file_reason = 0
 
 // Playback was stopped by an external action (e.g. playlist controls).
-public const mpv_end_file_reason_MPV_END_FILE_REASON_STOP : mpv_end_file_reason_mpv_end_file_reason = 2
+public const MPV_END_FILE_REASON_STOP : mpv_end_file_reason = 2
 
 // Playback was stopped by the quit command or player shutdown.
-public const mpv_end_file_reason_MPV_END_FILE_REASON_QUIT : mpv_end_file_reason_mpv_end_file_reason = 3
+public const MPV_END_FILE_REASON_QUIT : mpv_end_file_reason = 3
 
 // Some kind of error happened that lead to playback abort. Does not
 // necessarily happen on incomplete or broken files (in these cases, both
 // MPV_END_FILE_REASON_ERROR or MPV_END_FILE_REASON_EOF are possible).
 //
 // mpv_event_end_file.error will be set.
-public const mpv_end_file_reason_MPV_END_FILE_REASON_ERROR : mpv_end_file_reason_mpv_end_file_reason = 4
+public const MPV_END_FILE_REASON_ERROR : mpv_end_file_reason = 4
 
 // The file was a playlist or similar. When the playlist is read, its
 // entries will be appended to the playlist after the entry of the current
@@ -1271,14 +1271,14 @@ public const mpv_end_file_reason_MPV_END_FILE_REASON_ERROR : mpv_end_file_reason
 // event is sent with reason set to MPV_END_FILE_REASON_REDIRECT. Then
 // playback continues with the playlist contents.
 // Since API version 1.18.
-public const mpv_end_file_reason_MPV_END_FILE_REASON_REDIRECT : mpv_end_file_reason_mpv_end_file_reason = 5
+public const MPV_END_FILE_REASON_REDIRECT : mpv_end_file_reason = 5
 
 // Since API version 1.9.
-public type mpv_end_file_reason_mpv_end_file_reason = UInt32
+public type mpv_end_file_reason = UInt32
 
 // Since API version 1.108.
 @C
-public struct mpv_event_start_file_mpv_event_start_file {
+public struct mpv_event_start_file {
 // Playlist entry ID of the file being loaded now.
 public let playlist_entry_id : Int64
 public init(playlist_entry_id : Int64) {
@@ -1289,22 +1289,22 @@ public init(playlist_entry_id : Int64) {
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_start_file_mpv_event_start_file>()
+    let size = sizeOf<mpv_event_start_file>()
     if (size != 8) {
-        throw Exception("Size of mpv_event_start_file_mpv_event_start_file is not 8 but ${size} bytes")
+        throw Exception("Size of mpv_event_start_file is not 8 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_start_file_mpv_event_start_file>()
+    let align = alignOf<mpv_event_start_file>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_start_file_mpv_event_start_file is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_start_file is not 8 but ${align} bytes")
     }
 }
 
 @C
-public struct mpv_event_end_file_mpv_event_end_file {
+public struct mpv_event_end_file {
 // Corresponds to the values in enum mpv_end_file_reason.
 //
 // Unknown values should be treated as unknown.
-public let reason : mpv_end_file_reason_mpv_end_file_reason
+public let reason : mpv_end_file_reason
 // If reason==MPV_END_FILE_REASON_ERROR, this contains a mpv error code
 // (one of MPV_ERROR_...) giving an approximate reason why playback
 // failed. In other cases, this field is 0 (no error).
@@ -1332,7 +1332,7 @@ public let playlist_insert_id : Int64
 // negative.
 // Since API version 1.108.
 public let playlist_insert_num_entries : Int32
-public init(reason : mpv_end_file_reason_mpv_end_file_reason , error : Int32 , playlist_entry_id : Int64 , playlist_insert_id : Int64 , playlist_insert_num_entries : Int32) {
+public init(reason : mpv_end_file_reason , error : Int32 , playlist_entry_id : Int64 , playlist_insert_id : Int64 , playlist_insert_num_entries : Int32) {
     this.reason = reason
 this.error = error
 this.playlist_entry_id = playlist_entry_id
@@ -1344,18 +1344,18 @@ this.playlist_insert_num_entries = playlist_insert_num_entries
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_end_file_mpv_event_end_file>()
+    let size = sizeOf<mpv_event_end_file>()
     if (size != 32) {
-        throw Exception("Size of mpv_event_end_file_mpv_event_end_file is not 32 but ${size} bytes")
+        throw Exception("Size of mpv_event_end_file is not 32 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_end_file_mpv_event_end_file>()
+    let align = alignOf<mpv_event_end_file>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_end_file_mpv_event_end_file is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_end_file is not 8 but ${align} bytes")
     }
 }
 
 @C
-public struct mpv_event_client_message_mpv_event_client_message {
+public struct mpv_event_client_message {
 // Arbitrary arguments chosen by the sender of the message. If num_args > 0,
 // you can access args[0] through args[num_args - 1] (inclusive). What
 // these arguments mean is up to the sender and receiver.
@@ -1371,18 +1371,18 @@ this.args = args
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_client_message_mpv_event_client_message>()
+    let size = sizeOf<mpv_event_client_message>()
     if (size != 16) {
-        throw Exception("Size of mpv_event_client_message_mpv_event_client_message is not 16 but ${size} bytes")
+        throw Exception("Size of mpv_event_client_message is not 16 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_client_message_mpv_event_client_message>()
+    let align = alignOf<mpv_event_client_message>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_client_message_mpv_event_client_message is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_client_message is not 8 but ${align} bytes")
     }
 }
 
 @C
-public struct mpv_event_hook_mpv_event_hook {
+public struct mpv_event_hook {
 // The hook name as passed to mpv_hook_add().
 public let name : CString
 // Internal ID that must be passed to mpv_hook_continue().
@@ -1396,18 +1396,18 @@ this.id = id
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_hook_mpv_event_hook>()
+    let size = sizeOf<mpv_event_hook>()
     if (size != 16) {
-        throw Exception("Size of mpv_event_hook_mpv_event_hook is not 16 but ${size} bytes")
+        throw Exception("Size of mpv_event_hook is not 16 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_hook_mpv_event_hook>()
+    let align = alignOf<mpv_event_hook>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_hook_mpv_event_hook is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_hook is not 8 but ${align} bytes")
     }
 }
 
 @C
-public struct mpv_event_command_mpv_event_command {
+public struct mpv_event_command {
 // Result data of the command. Note that success/failure is signaled
 // separately via mpv_event.error. This field is only for result data
 // in case of success. Most commands leave it at MPV_FORMAT_NONE. Set
@@ -1421,21 +1421,21 @@ public init(result : mpv_node) {
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_command_mpv_event_command>()
+    let size = sizeOf<mpv_event_command>()
     if (size != 16) {
-        throw Exception("Size of mpv_event_command_mpv_event_command is not 16 but ${size} bytes")
+        throw Exception("Size of mpv_event_command is not 16 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_command_mpv_event_command>()
+    let align = alignOf<mpv_event_command>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_command_mpv_event_command is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event_command is not 8 but ${align} bytes")
     }
 }
 
 @C
-public struct mpv_event_mpv_event {
+public struct mpv_event {
 // One of mpv_event. Keep in mind that later ABI compatible releases might
 // add new event types. These should be ignored by the API user.
-public let event_id : mpv_event_id_mpv_event_id
+public let event_id : mpv_event_id
 // This is mainly used for events that are replies to (asynchronous)
 // requests. It contains a status code, which is >= 0 on success, or < 0
 // on error (a mpv_error value). Usually, this will be set if an
@@ -1469,7 +1469,7 @@ public let reply_userdata : UInt64
 // Note: future enhancements might add new event structs for existing or new
 //       event types.
 public let data : CPointer<Unit>
-public init(event_id : mpv_event_id_mpv_event_id , error : Int32 , reply_userdata : UInt64 , data : CPointer<Unit>) {
+public init(event_id : mpv_event_id , error : Int32 , reply_userdata : UInt64 , data : CPointer<Unit>) {
     this.event_id = event_id
 this.error = error
 this.reply_userdata = reply_userdata
@@ -1480,13 +1480,13 @@ this.data = data
 @When[debug]
 let _ = {
 =>
-    let size = sizeOf<mpv_event_mpv_event>()
+    let size = sizeOf<mpv_event>()
     if (size != 24) {
-        throw Exception("Size of mpv_event_mpv_event is not 24 but ${size} bytes")
+        throw Exception("Size of mpv_event is not 24 but ${size} bytes")
     }
-    let align = alignOf<mpv_event_mpv_event>()
+    let align = alignOf<mpv_event>()
     if (align != 8) {
-        throw Exception("Alignment of mpv_event_mpv_event is not 8 but ${align} bytes")
+        throw Exception("Alignment of mpv_event is not 8 but ${align} bytes")
     }
 }
 
@@ -1511,7 +1511,7 @@ let _ = {
 // @param src The source event. Not modified (it's not const due to the author's
 //            prejudice of the C version of const).
 // @return error code (MPV_ERROR_NOMEM only, if at all)
-foreign func mpv_event_to_node ( dst: CPointer<mpv_node> , src: CPointer<mpv_event_mpv_event> ) : Int32
+foreign func mpv_event_to_node ( dst: CPointer<mpv_node> , src: CPointer<mpv_event> ) : Int32
 
 // Enable or disable the given event.
 //
@@ -1525,7 +1525,7 @@ foreign func mpv_event_to_node ( dst: CPointer<mpv_node> , src: CPointer<mpv_eve
 // @param event See enum mpv_event_id.
 // @param enable 1 to enable receiving this event, 0 to disable it.
 // @return error code
-foreign func mpv_request_event ( ctx: CPointer<mpv_handle> , event: mpv_event_id_mpv_event_id , enable: Int32 ) : Int32
+foreign func mpv_request_event ( ctx: CPointer<mpv_handle> , event: mpv_event_id , enable: Int32 ) : Int32
 
 // Enable or disable receiving of log messages. These are the messages the
 // command line player prints to the terminal. This call sets the minimum
@@ -1570,7 +1570,7 @@ foreign func mpv_request_log_messages ( ctx: CPointer<mpv_handle> , min_level: C
 //         the struct, and all memory referenced by it will be automatically
 //         released by the API on the next mpv_wait_event() call, or when the
 //         context is destroyed. The return value is never NULL.
-foreign func mpv_wait_event ( ctx: CPointer<mpv_handle> , timeout: Float64 ) : CPointer<mpv_event_mpv_event>
+foreign func mpv_wait_event ( ctx: CPointer<mpv_handle> , timeout: Float64 ) : CPointer<mpv_event>
 
 // Interrupt the current mpv_wait_event() call. This will wake up the thread
 // currently waiting in mpv_wait_event(). If no thread is waiting, the next

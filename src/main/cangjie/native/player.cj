@@ -660,7 +660,7 @@ public class NativePlayer {
             unsafe {
                 let event = mpv_wait_event(handle, -1.0)
 
-                if (event.read().event_id == mpv_event_id_MPV_EVENT_NONE) {
+                if (event.read().event_id == MPV_EVENT_NONE) {
                     continue
                 }
 
@@ -669,14 +669,14 @@ public class NativePlayer {
         }
     }
 
-    private unsafe func handleEvents(event: mpv_event_mpv_event) {
+    private unsafe func handleEvents(event: mpv_event) {
         if (let Some(fn) <- observedEvents.get(event.event_id)) {
         	fn(event.event_id)
         }
 
         match (event.event_id) {
-            case id where id == mpv_event_id_MPV_EVENT_LOG_MESSAGE =>
-                let msg = CPointer<mpv_event_log_message_mpv_event_log_message>(event.data).read()
+            case id where id == MPV_EVENT_LOG_MESSAGE =>
+                let msg = CPointer<mpv_event_log_message>(event.data).read()
                 let log = PlayerLog(msg.prefix.toString(), msg.level.toString(), msg.text.toString())
                 if (kIsDebug) {
                     match (log.level) {
@@ -690,8 +690,8 @@ public class NativePlayer {
                 if (msg.level.toString() == "error") {
                     stream.error.add(msg.text.toString())
                 }
-            case id where id == mpv_event_id_MPV_EVENT_PROPERTY_CHANGE =>
-                let property = CPointer<mpv_event_property_mpv_event_property>(event.data).read()
+            case id where id == MPV_EVENT_PROPERTY_CHANGE =>
+                let property = CPointer<mpv_event_property>(event.data).read()
                 let name = property.name.toString()
 
                 if (property.format == MPV_FORMAT_NONE) {

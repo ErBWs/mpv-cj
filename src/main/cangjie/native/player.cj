@@ -848,6 +848,14 @@ public class NativePlayer {
                     case _ => ()
                 }
             case _ =>
+                if (event.event_id == MPV_EVENT_START_FILE) {
+                	state.playing = true
+                	state.eof = false
+                	state.buffering = true
+                	stream.playing.add(true)
+                	stream.eof.add(false)
+                	stream.buffering.add(true)
+                }
                 if (kIsDebug) {
                     let name = mpv_event_name(event.event_id).toString()
                     Hilog.debug(0, "mpv", "[event] " + name)

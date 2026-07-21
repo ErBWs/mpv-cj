@@ -116,10 +116,10 @@ let player = Player(config: PlayerConfig(
 
 #### `Media`
 
-`Media` 可以接收文件 uri 对应的路径，或网络媒体链接：
+`Media` 可以接收文件 uri，或网络媒体链接：
 
 ```cangjie
-player.open(Media(FileUri("test.mp4").path))
+player.open(Media("file://media/Photo/1310/VID_1/VID_1.mp4"))
 ```
 
 通过设置命名参数 `play`，可以控制加载媒体后是否立即开始播放：

@@ -21,7 +21,8 @@ public class PlayerSurface {
             id: "player",
             `type`: XComponentType.SURFACE,
             controller: player
-        ).width(100.percent)
+        )
+        .width(100.percent)
         .height(100.percent)
         .borderRadius(radius)
     }

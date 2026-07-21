@@ -7,6 +7,7 @@ package ohos_app_cangjie_mpvcj
 import std.sync.Mutex
 import std.collection.ArrayList
 import std.collection.HashMap
+import ohos_app_cangjie_mpvcj.utils.Utils
 import ohos_app_cangjie_mpvcj.native.NativePlayer
 import ohos_app_cangjie_mpvcj.native.MpvNodeUnion
 import ohos_app_cangjie_mpvcj.models.PlayerState
@@ -66,7 +67,7 @@ public class Player <: XComponentController {
     /**
      * Opens a media.
      *
-     * player.open(Media("https://www.example.com/sample.mp4"))
+     * player.open(Media("file://media/Photo/1310/VID_1/VID_1.mp4"))
      *
      * @param media     Media item to open.
      * @param play      Whether to start playback immediately.
@@ -82,9 +83,9 @@ public class Player <: XComponentController {
      * Opens a playlist.
      *
      * player.open(Playlist(ArrayList<Media>([
+     *     Media("file://media/Photo/1310/VID_1/VID_1.mp4")
      *     Media("https://www.example.com/sample1.mp4")
      *     Media("https://www.example.com/sample2.mp4")
-     *     Media("https://www.example.com/sample3.mp4")
      * ]), index: 0)
      *
      * @param playlist  Playlist to open.
@@ -130,9 +131,11 @@ public class Player <: XComponentController {
                     )
                 }
 
+                // ArkUI Cangjie has issue decoding sandbox file uri, mannually sanitize uri here.
+                let url = Utils.sanitizeUri(media.uri)
                 native.commandWithReturn(MpvNodeUnion.MpvArray([
                     MpvNodeUnion.MpvString("loadfile"),
-                    MpvNodeUnion.MpvString(media.uri),
+                    MpvNodeUnion.MpvString(url),
                     MpvNodeUnion.MpvString("append"),
                     MpvNodeUnion.MpvInt64(-1),
                     MpvNodeUnion.MpvMap(options)
@@ -143,8 +146,6 @@ public class Player <: XComponentController {
 
             if (play) {
                 native.setProperty("pause", false)
-                native.state.playing = true
-                native.stream.playing.add(true)
             }
         }
     }

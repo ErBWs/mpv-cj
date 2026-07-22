@@ -21,11 +21,11 @@ public class PlayerState {
     /**
     * Current playback duration in seconds (0.000).
     */
-    public var duration = 0 * Duration.second
+    public var duration = -1 * Duration.second
     /**
     * Current playback position in seconds (0.000).
     */
-    public var position = 0 * Duration.second
+    public var position = -1 * Duration.second
     /**
     * Current volume (0-130).
     */
@@ -45,7 +45,7 @@ public class PlayerState {
     /**
     * Current buffer position in seconds.
     */
-    public var buffer = 0 * Duration.second
+    public var buffer = -1 * Duration.second
     /**
     * Current playlist or file loop mode.
     */

@@ -12,18 +12,26 @@ public class Media <: Equatable<Media> {
      */
     public var uri: String
     /**
-     * HTTP headers, optional.
+     * HTTP headers.
      */
     public var httpHeaders: ?HashMap<String, String>
     /**
-     * Media start position, optional.
+     * Media start position.
      */
     public var start: ?Duration
     /**
-     * Media end position, optional.
+     * Media end position.
      */
     public var end: ?Duration
 
+    /**
+     * Creates a media for playback.
+     *
+     * @param uri           Media uri.
+     * @param httpHeaders   HTTP headers, optional.
+     * @param start         Media start position, optional.
+     * @param end           Media end position, optional.
+     */
     public init(
         uri: String,
         httpHeaders!: ?HashMap<String, String> = None,

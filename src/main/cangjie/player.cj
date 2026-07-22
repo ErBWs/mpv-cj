@@ -30,6 +30,7 @@ import kit.ImageKit.Size
 
 public class Player <: XComponentController {
     private let mtx = Mutex()
+    private let onReady: () -> Unit
 
     public let native: NativePlayer
 
@@ -40,10 +41,11 @@ public class Player <: XComponentController {
      *     vo: "gpu-next"
      * ))
      *
-     * @param config    Player configuration.
+     * @param config    Player configuration, optional.
      */
     public init(config!: PlayerConfig = PlayerConfig()) {
         native = NativePlayer(config)
+        onReady = config.onReady
     }
 
     /**
@@ -70,7 +72,7 @@ public class Player <: XComponentController {
      * player.open(Media("file://media/Photo/1310/VID_1/VID_1.mp4"))
      *
      * @param media     Media item to open.
-     * @param play      Whether to start playback immediately.
+     * @param play      Whether to start playback immediately, optional.
      */
     public func open(media: Media, play!: Bool = true) {
         synchronized(mtx) {
@@ -89,7 +91,7 @@ public class Player <: XComponentController {
      * ]), index: 0)
      *
      * @param playlist  Playlist to open.
-     * @param play      Whether to start playback immediately.
+     * @param play      Whether to start playback immediately, optional.
      */
     public func open(playlist: Playlist, play!: Bool = true) {
         synchronized(mtx) {
@@ -435,6 +437,7 @@ public class Player <: XComponentController {
     override protected func onSurfaceCreated(id: String): Unit {
         synchronized(mtx) {
             native.setProperty("wid", id)
+            onReady()
         }
     }
 

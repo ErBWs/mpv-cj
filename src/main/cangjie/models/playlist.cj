@@ -17,6 +17,12 @@ public class Playlist <: Equatable<Playlist> {
      */
     public var index: Int64
 
+    /**
+     * Creates a media playlist for playback.
+     *
+     * @param medias    Medias.
+     * @param index     Start playback from customized index, optional.
+     */
     public init(medias: ArrayList<Media>, index!: Int64 = 0) {
         this.medias = medias
         this.index = index

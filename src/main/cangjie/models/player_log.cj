@@ -5,10 +5,22 @@
 package ohos_app_cangjie_mpvcj.models
 
 public class PlayerLog <: ToString & Equatable<PlayerLog> {
+    /**
+     * The module prefix, identifies the sender of the message.
+     */
     public let prefix: String
+    /**
+     * The log level as string.
+     */
     public let level: String
+    /**
+     * The log message.
+     */
     public let text: String
 
+    /**
+     * Log message from mpv. You should NEVER create a PlayerLog yourself
+     */
     public init(
         prefix: String,
         level: String,

@@ -120,6 +120,9 @@ public class PlayerStream {
     */
     public var error = Stream<String>()
 
+    /**
+    * Cancel all listeners
+    */
     public func destroy() {
         playlist.close()
         playing.close()

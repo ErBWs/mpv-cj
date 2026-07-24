@@ -1,5 +1,5 @@
 {
-  "name": "@erbws/mpvcj",
+  "name": "@mpv-ohos/mpv-cj",
   "version": "1.0.0",
   "description": "A mpv player for HarmonyOS, based on Cangjie",
   "main": "",
@@ -7,8 +7,8 @@
   "license": "Apache-2.0",
   "compatibleSdkType": "HarmonyOS",
   "compatibleSdkVersion": "20",
-  "homepage": "https://github.com/ErBWs/mpv-cj",
-  "repository": "https://github.com/ErBWs/mpv-cj",
+  "homepage": "https://github.com/mpv-ohos/mpv-cj",
+  "repository": "https://github.com/mpv-ohos/mpv-cj",
   "keywords": [
     "mpv",
     "player"

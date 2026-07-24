@@ -1,4 +1,4 @@
-# @erbws/mpvcj
+# @mpv-ohos/mpv-cj
 
 使用仓颉编写的基于 mpv 的 HarmonyOS 音视频播放器。
 
@@ -20,12 +20,12 @@
 
 ## 安装
 
-在模块级 `oh-package.json5` 中将 `@erbws/mpvcj` 添加到 `dependencies`：
+在模块级 `oh-package.json5` 中将 `@mpv-ohos/mpv-cj` 添加到 `dependencies`：
 
 ```json5
 {
   "dependencies": {
-    "@erbws/mpvcj": "1.0.0",
+    "@mpv-ohos/mpv-cj": "1.0.0",
   }
 }
 ```
